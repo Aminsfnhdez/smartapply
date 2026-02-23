@@ -1,68 +1,136 @@
+import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 import type { CvTemplateProps } from "@/types/cv-template";
 
-export const ClassicTemplate = ({ content }: CvTemplateProps) => {
-  return (
-    <div className="bg-white p-8 font-sans leading-relaxed text-gray-900">
+// Registro de fuentes si fuera necesario (usaremos las estándar por ahora)
+
+const styles = StyleSheet.create({
+  page: {
+    padding: 40,
+    fontFamily: 'Helvetica',
+    fontSize: 10,
+    color: '#1a1a1a',
+    lineHeight: 1.5,
+  },
+  header: {
+    marginBottom: 20,
+    borderBottomWidth: 2,
+    borderBottomColor: '#000',
+    paddingBottom: 10,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+  summary: {
+    marginTop: 8,
+    fontSize: 9,
+    color: '#4b5563',
+  },
+  section: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    borderBottomWidth: 1,
+    borderBottomColor: '#d1d5db',
+    paddingBottom: 4,
+    marginBottom: 10,
+  },
+  entryHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    fontWeight: 'bold',
+  },
+  entryCompany: {
+    fontStyle: 'italic',
+    color: '#374151',
+    marginBottom: 4,
+  },
+  description: {
+    fontSize: 9,
+    textAlign: 'justify',
+  },
+  skillList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  skillItem: {
+    marginRight: 10,
+  },
+  languageGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  languageItem: {
+    marginRight: 20,
+  },
+  bold: {
+    fontWeight: 'bold',
+  }
+});
+
+export const ClassicTemplate = ({ content }: CvTemplateProps) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
       {/* Header */}
-      <div className="mb-8 border-b-2 border-gray-900 pb-4">
-        <h1 className="text-3xl font-bold uppercase tracking-tight">{content.experience[0]?.company ? "CANDIDATO" : "RESUMEN PRO"}</h1>
-        <p className="mt-2 text-sm text-gray-600">{content.summary}</p>
-      </div>
+      <View style={styles.header}>
+        <Text style={styles.title}>RESUMEN PROFESIONAL</Text>
+        <Text style={styles.summary}>{content.summary}</Text>
+      </View>
 
       {/* Experience */}
-      <section className="mb-8">
-        <h2 className="mb-4 border-b border-gray-300 pb-1 text-lg font-bold uppercase tracking-wide">Experiencia Profesional</h2>
-        <div className="space-y-6">
-          {content.experience.map((exp, i) => (
-            <div key={i}>
-              <div className="flex justify-between font-bold">
-                <span>{exp.position}</span>
-                <span>{exp.startDate} - {exp.endDate}</span>
-              </div>
-              <div className="italic text-gray-700">{exp.company}</div>
-              <p className="mt-2 text-sm whitespace-pre-line">{exp.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Experiencia Profesional</Text>
+        {content.experience.map((exp, i) => (
+          <View key={i} style={{ marginBottom: 12 }}>
+            <View style={styles.entryHeader}>
+              <Text style={styles.bold}>{exp.position}</Text>
+              <Text>{exp.startDate} - {exp.endDate}</Text>
+            </View>
+            <Text style={styles.entryCompany}>{exp.company}</Text>
+            <Text style={styles.description}>{exp.description}</Text>
+          </View>
+        ))}
+      </View>
 
       {/* Education */}
-      <section className="mb-8">
-        <h2 className="mb-4 border-b border-gray-300 pb-1 text-lg font-bold uppercase tracking-wide">Educación</h2>
-        <div className="space-y-4">
-          {content.education.map((edu, i) => (
-            <div key={i}>
-              <div className="flex justify-between font-bold">
-                <span>{edu.degree}</span>
-                <span>{edu.startDate} - {edu.endDate}</span>
-              </div>
-              <div className="text-gray-700">{edu.institution}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Educación</Text>
+        {content.education.map((edu, i) => (
+          <View key={i} style={{ marginBottom: 8 }}>
+            <View style={styles.entryHeader}>
+              <Text style={styles.bold}>{edu.degree}</Text>
+              <Text>{edu.startDate} - {edu.endDate}</Text>
+            </View>
+            <Text style={{ color: '#374151' }}>{edu.institution}</Text>
+          </View>
+        ))}
+      </View>
 
       {/* Skills */}
-      <section className="mb-8">
-        <h2 className="mb-4 border-b border-gray-300 pb-1 text-lg font-bold uppercase tracking-wide">Habilidades</h2>
-        <div className="flex flex-wrap gap-2">
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Habilidades</Text>
+        <View style={styles.skillList}>
           {content.skills.map((skill, i) => (
-            <span key={i} className="text-sm">• {skill}</span>
+            <Text key={i} style={styles.skillItem}>• {skill}</Text>
           ))}
-        </div>
-      </section>
+        </View>
+      </View>
 
       {/* Languages */}
-      <section>
-        <h2 className="mb-4 border-b border-gray-300 pb-1 text-lg font-bold uppercase tracking-wide">Idiomas</h2>
-        <div className="flex flex-wrap gap-x-6 gap-y-2">
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Idiomas</Text>
+        <View style={styles.languageGrid}>
           {content.languages.map((lang, i) => (
-            <div key={i} className="text-sm">
-              <span className="font-bold">{lang.name}:</span> {lang.level}
-            </div>
+            <Text key={i} style={styles.languageItem}>
+              <Text style={styles.bold}>{lang.name}:</Text> {lang.level}
+            </Text>
           ))}
-        </div>
-      </section>
-    </div>
-  );
-};
+        </View>
+      </View>
+    </Page>
+  </Document>
+);
