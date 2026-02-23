@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "login": {
+      "title": "Bienvenido a SmartApply",
+      "description": "Tu CV perfecto, adaptado con IA en segundos. Inicia sesión para comenzar.",
+      "google": "Continuar con Google",
+      "github": "Continuar con GitHub",
+      "footer": "¿No tienes cuenta? Se creará una automáticamente al iniciar sesión."
+    }
+  }
+}
