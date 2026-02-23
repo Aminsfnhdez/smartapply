@@ -7,7 +7,7 @@ export const anthropic = new Anthropic({
 });
 
 // Modelo a usar en todo el proyecto
-export const CLAUDE_MODEL = 'claude-3-5-sonnet-20240620'; // claude-sonnet-4-6 refers to 3.5 Sonnet
+export const CLAUDE_MODEL = 'claude-sonnet-4-6';
 
 // Prompt del sistema para adaptación de CV
 export const CV_SYSTEM_PROMPT = `
