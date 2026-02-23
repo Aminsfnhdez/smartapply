@@ -69,5 +69,17 @@
     "matchedKeywords": "Keywords Encontradas",
     "missingKeywords": "Keywords Faltantes",
     "lowScoreWarning": "Tu score es bajo. Considera aplicar las sugerencias para mejorar tus posibilidades."
+  },
+  "history": {
+    "title": "Historial de CVs",
+    "description": "Gestiona y descarga los CVs que has generado optimizados para cada vacante.",
+    "empty": "Aún no has generado ningún CV. ¡Comienza ahora!",
+    "delete": "Eliminar CV",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar este CV? Esta acción es irreversible.",
+    "deleteError": "Error al eliminar el CV.",
+    "downloadError": "Error al generar el archivo de descarga.",
+    "classic": "Clásico",
+    "modern": "Moderno",
+    "minimalist": "Minimalista"
   }
 }

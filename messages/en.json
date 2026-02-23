@@ -69,5 +69,17 @@
     "matchedKeywords": "Found Keywords",
     "missingKeywords": "Missing Keywords",
     "lowScoreWarning": "Your score is low. Consider applying the suggestions to improve your chances."
+  },
+  "history": {
+    "title": "CV History",
+    "description": "Manage and download the CVs you've generated optimized for each vacancy.",
+    "empty": "You haven't generated any CVs yet. Start now!",
+    "delete": "Delete CV",
+    "confirmDelete": "Are you sure you want to delete this CV? This action is irreversible.",
+    "deleteError": "Error deleting CV.",
+    "downloadError": "Error generating download file.",
+    "classic": "Classic",
+    "modern": "Modern",
+    "minimalist": "Minimalist"
   }
 }
