@@ -7,5 +7,43 @@
       "github": "Continue with GitHub",
       "footer": "Don't have an account? One will be created automatically when you sign in."
     }
+  },
+  "profile": {
+    "title": "Configure your Professional Profile",
+    "description": "Complete your information so the IA can accurately tailor your CVs.",
+    "steps": {
+      "personal": "Personal Info",
+      "experience": "Experience",
+      "education": "Education",
+      "skills": "Skills & Others"
+    },
+    "fields": {
+      "summary": "Professional Summary",
+      "company": "Company",
+      "position": "Position",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "description": "Description",
+      "institution": "Institution",
+      "degree": "Degree",
+      "languageName": "Language",
+      "languageLevel": "Level",
+      "skills": "Skills (comma separated)",
+      "certifications": "Certifications (comma separated)"
+    },
+    "actions": {
+      "next": "Next",
+      "prev": "Previous",
+      "save": "Save Profile",
+      "adding": "Saving...",
+      "addExperience": "Add Experience",
+      "addEducation": "Add Education",
+      "addLanguage": "Add Language",
+      "remove": "Remove"
+    },
+    "messages": {
+      "success": "Profile saved successfully",
+      "error": "Error saving profile"
+    }
   }
 }

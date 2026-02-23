@@ -7,5 +7,43 @@
       "github": "Continuar con GitHub",
       "footer": "¿No tienes cuenta? Se creará una automáticamente al iniciar sesión."
     }
+  },
+  "profile": {
+    "title": "Configura tu Perfil Profesional",
+    "description": "Completa tu información para que la IA pueda adaptar tus CVs de forma precisa.",
+    "steps": {
+      "personal": "Datos Personales",
+      "experience": "Experiencia",
+      "education": "Educación",
+      "skills": "Habilidades y Otros"
+    },
+    "fields": {
+      "summary": "Resumen Profesional",
+      "company": "Empresa",
+      "position": "Cargo",
+      "startDate": "Fecha Inicio",
+      "endDate": "Fecha Fin",
+      "description": "Descripción",
+      "institution": "Institución",
+      "degree": "Título/Grado",
+      "languageName": "Idioma",
+      "languageLevel": "Nivel",
+      "skills": "Habilidades (separadas por coma)",
+      "certifications": "Certificaciones (separadas por coma)"
+    },
+    "actions": {
+      "next": "Siguiente",
+      "prev": "Anterior",
+      "save": "Guardar Perfil",
+      "adding": "Agregando...",
+      "addExperience": "Agregar Experiencia",
+      "addEducation": "Agregar Educación",
+      "addLanguage": "Agregar Idioma",
+      "remove": "Quitar"
+    },
+    "messages": {
+      "success": "Perfil guardado correctamente",
+      "error": "Error al guardar el perfil"
+    }
   }
 }
