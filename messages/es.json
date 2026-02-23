@@ -45,5 +45,29 @@
       "success": "Perfil guardado correctamente",
       "error": "Error al guardar el perfil"
     }
+  },
+  "generate": {
+    "title": "Generar CV Optimizado",
+    "description": "Pega la descripción de la vacante y selecciona una plantilla. Nuestra IA adaptará tu perfil automáticamente.",
+    "vacancyLabel": "Descripción de la Vacante",
+    "vacancyPlaceholder": "Pega aquí el texto completo de la oferta de empleo...",
+    "templateLabel": "Seleccionar Plantilla",
+    "templateClassic": "Clásico",
+    "templateModern": "Moderno",
+    "templateMinimalist": "Minimalista",
+    "button": "Generar con Claude API",
+    "loading": "Claude está analizando y redactando...",
+    "errors": {
+      "noProfile": "Primero debes completar tu perfil profesional.",
+      "tooShort": "La descripción debe tener al menos 50 caracteres.",
+      "api": "Error al conectar con la IA. Intente de nuevo."
+    }
+  },
+  "ats": {
+    "scoreTitle": "Puntuación de Compatibilidad ATS",
+    "suggestionsTitle": "Sugerencias de Mejora",
+    "matchedKeywords": "Keywords Encontradas",
+    "missingKeywords": "Keywords Faltantes",
+    "lowScoreWarning": "Tu score es bajo. Considera aplicar las sugerencias para mejorar tus posibilidades."
   }
 }

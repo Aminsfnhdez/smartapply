@@ -45,5 +45,29 @@
       "success": "Profile saved successfully",
       "error": "Error saving profile"
     }
+  },
+  "generate": {
+    "title": "Generate Optimized CV",
+    "description": "Paste the job description and select a template. Our AI will automatically adapt your profile.",
+    "vacancyLabel": "Job Description",
+    "vacancyPlaceholder": "Paste the full text of the job offer here...",
+    "templateLabel": "Select Template",
+    "templateClassic": "Classic",
+    "templateModern": "Modern",
+    "templateMinimalist": "Minimalist",
+    "button": "Generate with Claude API",
+    "loading": "Claude is analyzing and writing...",
+    "errors": {
+      "noProfile": "You must first complete your professional profile.",
+      "tooShort": "The description must be at least 50 characters long.",
+      "api": "Error connecting to AI. Please try again."
+    }
+  },
+  "ats": {
+    "scoreTitle": "ATS Compatibility Score",
+    "suggestionsTitle": "Improvement Suggestions",
+    "matchedKeywords": "Found Keywords",
+    "missingKeywords": "Missing Keywords",
+    "lowScoreWarning": "Your score is low. Consider applying the suggestions to improve your chances."
   }
 }
