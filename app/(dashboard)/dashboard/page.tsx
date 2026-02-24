@@ -2,10 +2,10 @@ import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import { getTranslations } from "next-intl/server";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
-import { CvHistoryCard } from "@/components/dashboard/CvHistoryCard";
+import { RecentCvs } from "@/components/dashboard/RecentCvs";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import { FilePlus, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -72,27 +72,7 @@ export default async function DashboardPage() {
           </Link>
         </div>
 
-        {cvs.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {cvs.slice(0, 2).map((cv) => (
-              // Note: CvHistoryCard needs a delete handler which we can't fully provide in a server component easily without passing it down
-              // But for Dashboard overview, maybe just a simpler card or redirect to history
-              <CvHistoryCard key={cv.id} cv={cv} onDelete={() => {}} />
-            ))}
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-100 py-16 text-center">
-            <div className="mb-4 rounded-full bg-slate-50 p-4">
-              <FilePlus className="h-8 w-8 text-gray-300" />
-            </div>
-            <p className="text-gray-500 font-bold">{t("noRecentCvs")}</p>
-            <Link href="/generate" className="mt-4">
-              <Button variant="outline" size="sm" className="font-bold">
-                {t("generateFirst")}
-              </Button>
-            </Link>
-          </div>
-        )}
+        <RecentCvs initialCvs={cvs} />
       </div>
     </div>
   );

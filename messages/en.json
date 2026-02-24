@@ -96,6 +96,8 @@
     "viewAll": "View all history",
     "noRecentCvs": "You don't have any generated CVs yet.",
     "generateFirst": "Start my first CV",
+    "confirmDelete": "Are you sure you want to delete this CV? This action cannot be undone.",
+    "deleteError": "Could not delete the CV. Please try again.",
     "navigation": {
       "dashboard": "Dashboard",
       "generate": "Generate CV",
