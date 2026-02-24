@@ -23,6 +23,7 @@ const envSchema = z.object({
 
   // App
   NEXT_PUBLIC_APP_URL: z.string().url(),
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
 });
 
 const processEnv = {
@@ -39,6 +40,7 @@ const processEnv = {
   SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
   ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  NODE_ENV: process.env.NODE_ENV,
 };
 
 const parsed = envSchema.safeParse(processEnv);
