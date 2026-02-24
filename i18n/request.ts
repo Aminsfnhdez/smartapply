@@ -1,9 +1,9 @@
 import { getRequestConfig } from 'next-intl/server';
+import { getUserLocale } from '../lib/locale';
  
 export default getRequestConfig(async () => {
-  // En una configuración sin prefijo de [locale], el locale suele ser fijo
-  // o detectado por una cookie que el middleware maneja.
-  const locale = 'es';
+  // Obtenemos el locale persistido en la cookie o 'es' por defecto
+  const locale = await getUserLocale();
  
   return {
     locale,

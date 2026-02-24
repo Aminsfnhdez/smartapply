@@ -1,10 +1,13 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
-import { LogOut, User, Globe } from "lucide-react";
+import { LogOut, User, Globe, Loader2 } from "lucide-react";
+import { setUserLocale } from "@/lib/locale";
 
 interface NavbarProps {
   userName: string;
@@ -13,6 +16,17 @@ interface NavbarProps {
 
 export const Navbar = ({ userName, userImage }: NavbarProps) => {
   const t = useTranslations("dashboard.navbar");
+  const locale = useLocale();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const toggleLanguage = () => {
+    const nextLocale = locale === "es" ? "en" : "es";
+    startTransition(async () => {
+      await setUserLocale(nextLocale);
+      router.refresh();
+    });
+  };
 
   return (
     <nav className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md">
@@ -23,10 +37,17 @@ export const Navbar = ({ userName, userImage }: NavbarProps) => {
         </div>
 
         <div className="flex items-center gap-6">
-          {/* Mock Language Toggle - Will be improved in Part 2 */}
-          <button className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
-            <Globe className="h-4 w-4" />
-            <span>ES</span>
+          <button 
+            disabled={isPending}
+            onClick={toggleLanguage}
+            className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-gray-900 transition-all active:scale-95 disabled:opacity-50"
+          >
+            {isPending ? (
+              <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+            ) : (
+              <Globe className="h-4 w-4" />
+            )}
+            <span className="uppercase">{locale}</span>
           </button>
 
           <div className="h-6 w-px bg-gray-200" />
