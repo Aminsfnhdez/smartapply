@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 import { CvHistoryCard } from './CvHistoryCard';
 import { FilePlus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -25,6 +26,9 @@ export const RecentCvs = ({ initialCvs }: RecentCvsProps) => {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const handleDelete = async (id: string) => {
+    // Mantengo confirm por ahora ya que el usuario pidió específicamente reemplazar alert() y notificaciones inline, 
+    // pero confirm() es una acción de interrupción. Si desea reemplazarlo por un diálogo custom sería parte de otra mejora.
+    // Sin embargo, por consistencia usaré toast para el feedback.
     if (!confirm(t('confirmDelete'))) return;
 
     setIsDeleting(id);
@@ -34,16 +38,17 @@ export const RecentCvs = ({ initialCvs }: RecentCvsProps) => {
       });
 
       if (res.ok) {
+        toast.success(t('success_delete'));
         // Optimistic update: remove from local state
         setCvs(prev => prev.filter(cv => cv.id !== id));
         // Refresh server components to update stats (Total, Average Score)
         router.refresh();
       } else {
-        alert(t('deleteError'));
+        toast.error(t('deleteError'));
       }
     } catch (error) {
       console.error(error);
-      alert(t('deleteError'));
+      toast.error(t('deleteError'));
     } finally {
       setIsDeleting(null);
     }

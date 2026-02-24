@@ -65,6 +65,7 @@
     "templateMinimalist": "Minimalista",
     "button": "Generar con Claude API",
     "loading": "Claude está analizando y redactando...",
+    "success_generation": "¡CV generado con éxito!",
     "errors": {
       "noProfile": "Primero debes completar tu perfil profesional.",
       "tooShort": "La descripción debe tener al menos 50 caracteres.",
@@ -85,6 +86,7 @@
     "delete": "Eliminar CV",
     "confirmDelete": "¿Estás seguro de que deseas eliminar este CV? Esta acción es irreversible.",
     "deleteError": "Error al eliminar el CV.",
+    "success_delete": "CV eliminado correctamente.",
     "downloadError": "Error al generar el archivo de descarga.",
     "classic": "Clásico",
     "modern": "Moderno",
@@ -99,6 +101,7 @@
     "generateFirst": "Comenzar mi primer CV",
     "confirmDelete": "¿Estás seguro de que deseas eliminar este CV? Esta acción no se puede deshacer.",
     "deleteError": "No se pudo eliminar el CV. Intente nuevamente.",
+    "success_delete": "CV eliminado con éxito.",
     "navigation": {
       "dashboard": "Dashboard",
       "generate": "Generar CV",

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CvHistoryCard } from "@/components/dashboard/CvHistoryCard";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 interface HistoryClientProps {
   initialCvs: any[];
@@ -16,18 +17,19 @@ export const HistoryClient = ({ initialCvs }: HistoryClientProps) => {
     if (!confirm(t("confirmDelete"))) return;
 
     try {
-      const res = await fetch(`/api/cv/\${id}`, {
+      const res = await fetch(`/api/cv/${id}`, {
         method: "DELETE",
       });
 
       if (res.ok) {
+        toast.success(t("success_delete"));
         setCvs(cvs.filter((cv) => cv.id !== id));
       } else {
-        alert(t("deleteError"));
+        toast.error(t("deleteError"));
       }
     } catch (error) {
       console.error(error);
-      alert(t("deleteError"));
+      toast.error(t("deleteError"));
     }
   };
 

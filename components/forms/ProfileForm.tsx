@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import type { ProfileFormData, Experience, Education, Language } from "@/types/profile";
@@ -35,14 +36,14 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
       });
 
       if (response.ok) {
-        alert(t("messages.success"));
+        toast.success(t("messages.success"));
         router.push("/dashboard");
       } else {
-        alert(t("messages.error"));
+        toast.error(t("messages.error"));
       }
     } catch (error) {
       console.error(error);
-      alert(t("messages.error"));
+      toast.error(t("messages.error"));
     } finally {
       setLoading(false);
     }

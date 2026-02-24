@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/Button";
 import { AtsScoreBar } from "@/components/dashboard/AtsScoreBar";
 import type { GeneratedCvContent, AtsScoreResponse } from "@/types/cv";
@@ -13,16 +14,15 @@ export default function GeneratePage() {
   const [loading, setLoading] = useState(false);
   const [generatedCv, setGeneratedCv] = useState<GeneratedCvContent | null>(null);
   const [atsScore, setAtsScore] = useState<AtsScoreResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
   const handleGenerate = async () => {
     if (jobDescription.length < 50) {
-      setError(t("errors.tooShort"));
+      toast.error(t("errors.tooShort"));
       return;
     }
 
+    const toastId = toast.loading(t("loading"));
     setLoading(true);
-    setError(null);
     setGeneratedCv(null);
     setAtsScore(null);
 
@@ -39,6 +39,8 @@ export default function GeneratePage() {
         throw new Error(data.error || t("errors.api"));
       }
 
+      toast.success(t("success_generation"), { id: toastId });
+
       setGeneratedCv(data.cv);
 
       // Una vez generado el CV, pedimos el score ATS
@@ -53,7 +55,7 @@ export default function GeneratePage() {
         setAtsScore(scoreData);
       }
     } catch (err: any) {
-      setError(err.message);
+      toast.error(err.message, { id: toastId });
     } finally {
       setLoading(false);
     }
@@ -106,11 +108,7 @@ export default function GeneratePage() {
             </div>
           </div>
 
-          {error && (
-            <div className="rounded-xl bg-red-50 p-4 text-sm text-red-600">
-              {error}
-            </div>
-          )}
+
 
           <Button
             onClick={handleGenerate}
