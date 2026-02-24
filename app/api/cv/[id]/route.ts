@@ -7,7 +7,8 @@ import { NextRequest, NextResponse } from 'next/server';
  * GET /api/cv/[id]
  * Obtener detalles de un CV específico
  */
-export const GET = async (_req: NextRequest, { params }: { params: { id: string } }) => {
+export const GET = async (_req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
@@ -15,7 +16,7 @@ export const GET = async (_req: NextRequest, { params }: { params: { id: string 
 
   try {
     const cv = await prisma.cV.findUnique({
-      where: { id: params.id, userId: session.user.id },
+      where: { id, userId: session.user.id },
     });
 
     if (!cv) {
@@ -34,7 +35,8 @@ export const GET = async (_req: NextRequest, { params }: { params: { id: string 
  * DELETE /api/cv/[id]
  * Eliminar un CV y sus archivos asociados en Storage
  */
-export const DELETE = async (_req: NextRequest, { params }: { params: { id: string } }) => {
+export const DELETE = async (_req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
@@ -43,7 +45,7 @@ export const DELETE = async (_req: NextRequest, { params }: { params: { id: stri
   try {
     // 1. Verificar existencia y pertenencia
     const cv = await prisma.cV.findUnique({
-      where: { id: params.id, userId: session.user.id },
+      where: { id, userId: session.user.id },
     });
 
     if (!cv) {
@@ -52,7 +54,7 @@ export const DELETE = async (_req: NextRequest, { params }: { params: { id: stri
 
     // 2. Eliminar de la base de datos
     await prisma.cV.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     // 3. Intentar eliminar archivos en Supabase Storage (opcional, no bloqueante)
