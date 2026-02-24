@@ -22,10 +22,14 @@ export default async function DashboardPage() {
     where: { userId: session?.user?.id },
   });
 
-  // Calculate average score (mock or from DB if implemented)
-  // For now, let's assume we don't store the ATS score in the CV model yet (rule 6 says caching uses hash, but doesn't mention storing score)
-  // Wait, let's check schema.prisma again.
-  const averageScore = totalCvs > 0 ? 78 : 0; // Fallback or mock if not in DB
+  const aggregate = await prisma.cV.aggregate({
+    where: { userId: session?.user?.id },
+    _avg: {
+      atsScore: true,
+    },
+  });
+
+  const averageScore = Math.round(aggregate._avg.atsScore || 0);
   const lastGeneratedDate = cvs.length > 0 ? new Date(cvs[0].createdAt).toLocaleDateString() : undefined;
 
   return (

@@ -3,8 +3,8 @@ import { z } from 'zod';
 import { createHash } from 'crypto';
 import { auth } from '@/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
-import { callClaude, CV_SYSTEM_PROMPT } from '@/lib/anthropic';
-import type { GeneratedCvContent } from '@/types/cv';
+import { callClaude, CV_SYSTEM_PROMPT, ATS_SYSTEM_PROMPT } from '@/lib/anthropic';
+import type { GeneratedCvContent, AtsScoreResponse } from '@/types/cv';
 
 const generateSchema = z.object({
   jobDescription: z.string().min(50).max(5000),
@@ -87,13 +87,39 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    // 6. Guardar en DB
+    // 6. Obtener score ATS real
+    const scoreMessage = `
+      CV del Candidato (JSON):
+      ${JSON.stringify(generatedCv)}
+
+      Descripción de la vacante:
+      ${jobDescription}
+
+      Analiza la compatibilidad (0-100) y devuelve únicamente el JSON con el score.
+    `;
+
+    let atsScore = 0;
+    try {
+      const scoreResult = await callClaude({
+        systemPrompt: ATS_SYSTEM_PROMPT,
+        userMessage: scoreMessage,
+        maxTokens: 512,
+      });
+      const parsedScore = JSON.parse(scoreResult) as AtsScoreResponse;
+      atsScore = parsedScore.score;
+    } catch (scoreError) {
+      console.warn('[POST /api/cv/generate] No se pudo obtener el score ATS:', scoreError);
+      // No fallamos la generación completa por el score
+    }
+
+    // 7. Guardar en DB
     const savedCv = await prisma.cV.create({
       data: {
         userId: session.user.id,
         jobDescription,
         cacheKey,
-        generatedContent: generatedCv as any, // Prisma Json field
+        generatedContent: generatedCv as any,
+        atsScore,
       },
     });
 

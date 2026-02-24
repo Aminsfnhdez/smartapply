@@ -80,6 +80,7 @@ model CV {
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   jobDescription   String   @db.Text
   generatedContent Json     // Content as defined in GeneratedCvContent interface
+  atsScore         Int      @default(0)
   cacheKey         String   // Hash of profile + job description
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
