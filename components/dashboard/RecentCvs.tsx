@@ -63,7 +63,7 @@ export const RecentCvs = ({ initialCvs }: RecentCvsProps) => {
         <h3 className="text-lg font-bold text-gray-900">{t("noRecentActivity")}</h3>
         <p className="mt-2 text-gray-500 max-w-xs mx-auto">{t("noRecentCvs")}</p>
         <Link href="/generate" className="mt-8">
-          <Button variant="default" className="font-bold px-8">
+          <Button variant="primary" className="font-bold px-8">
             {t("generateFirst")}
           </Button>
         </Link>
