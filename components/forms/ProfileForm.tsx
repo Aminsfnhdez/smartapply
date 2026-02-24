@@ -326,7 +326,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
             </div>
 
             <div className="space-y-4">
-              <label className="text-xs font-medium uppercase text-gray-500">{t("addLanguage")}</label>
+              <label className="text-xs font-medium uppercase text-gray-500">{t("steps.addLanguage")}</label>
               {formData.languages.map((lang, index) => (
                 <div key={index} className="flex gap-4">
                   <input
