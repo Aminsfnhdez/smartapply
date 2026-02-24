@@ -137,7 +137,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                     <label className="text-xs font-medium uppercase text-gray-500">{t("fields.startDate")}</label>
                     <input
                       placeholder={t("fields.datePlaceholder")}
-                      value={exp.startDate}
+                      value={exp.startDate ?? ""}
                       onChange={(e) => {
                         const newExp = [...formData.experience];
                         newExp[index].startDate = e.target.value;
@@ -152,7 +152,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                       <label className="flex items-center gap-1.5 text-[10px] font-bold text-blue-600 uppercase cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={exp.isCurrent}
+                          checked={exp.isCurrent || false}
                           onChange={(e) => {
                             const newExp = [...formData.experience];
                             newExp[index].isCurrent = e.target.checked;
@@ -166,7 +166,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                     </div>
                     <input
                       placeholder={t("fields.datePlaceholder")}
-                      value={exp.endDate}
+                      value={exp.endDate ?? ""}
                       disabled={exp.isCurrent}
                       onChange={(e) => {
                         const newExp = [...formData.experience];
@@ -197,7 +197,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
             ))}
             <Button
               variant="secondary"
-              onClick={() => updateField("experience", [...formData.experience, { company: "", position: "", startDate: "", endDate: "", description: "" }])}
+              onClick={() => updateField("experience", [...formData.experience, { company: "", position: "", startDate: "", endDate: "", isCurrent: false, description: "" }])}
             >
               {t("actions.addExperience")}
             </Button>
@@ -254,7 +254,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                       <label className="text-xs font-medium uppercase text-gray-500">{t("fields.startDate")}</label>
                       <input
                         placeholder={t("fields.datePlaceholder")}
-                        value={edu.startDate}
+                        value={edu.startDate ?? ""}
                         onChange={(e) => {
                           const newEdu = [...formData.education];
                           newEdu[index].startDate = e.target.value;
@@ -269,7 +269,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                         <label className="flex items-center gap-1.5 text-[10px] font-bold text-blue-600 uppercase cursor-pointer">
                           <input
                             type="checkbox"
-                            checked={edu.isOngoing}
+                            checked={edu.isOngoing || false}
                             onChange={(e) => {
                               const newEdu = [...formData.education];
                               newEdu[index].isOngoing = e.target.checked;
@@ -283,7 +283,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                       </div>
                       <input
                         placeholder={t("fields.datePlaceholder")}
-                        value={edu.endDate}
+                        value={edu.endDate ?? ""}
                         disabled={edu.isOngoing}
                         onChange={(e) => {
                           const newEdu = [...formData.education];
@@ -302,7 +302,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
             ))}
             <Button
               variant="secondary"
-              onClick={() => updateField("education", [...formData.education, { institution: "", degree: "", startDate: "", endDate: "" }])}
+              onClick={() => updateField("education", [...formData.education, { institution: "", degree: "", startDate: "", endDate: "", isOngoing: false }])}
             >
               {t("actions.addEducation")}
             </Button>
