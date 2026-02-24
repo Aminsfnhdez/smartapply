@@ -1,4 +1,11 @@
 {
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
   "auth": {
     "login": {
       "title": "Welcome to SmartApply",
@@ -81,5 +88,28 @@
     "classic": "Classic",
     "modern": "Modern",
     "minimalist": "Minimalist"
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "subtitle": "Here is a summary of your professional activity.",
+    "recentActivity": "Recent Activity",
+    "viewAll": "View all history",
+    "noRecentCvs": "You don't have any generated CVs yet.",
+    "generateFirst": "Start my first CV",
+    "navigation": {
+      "dashboard": "Dashboard",
+      "generate": "Generate CV",
+      "history": "History",
+      "profile": "My Profile"
+    },
+    "navbar": {
+      "profile": "Verified Profile",
+      "logout": "Logout"
+    },
+    "stats": {
+      "totalCvs": "Generated CVs",
+      "averageScore": "Average ATS Score",
+      "lastCv": "Last Generated"
+    }
   }
 }

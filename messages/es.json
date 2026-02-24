@@ -1,4 +1,11 @@
 {
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "cancel": "Cancelar"
+  },
   "auth": {
     "login": {
       "title": "Bienvenido a SmartApply",
@@ -81,5 +88,28 @@
     "classic": "Clásico",
     "modern": "Moderno",
     "minimalist": "Minimalista"
+  },
+  "dashboard": {
+    "welcome": "¡Bienvenido",
+    "subtitle": "Aquí tienes un resumen de tu actividad profesional.",
+    "recentActivity": "Actividad Reciente",
+    "viewAll": "Ver todo el historial",
+    "noRecentCvs": "Aún no tienes CVs generados.",
+    "generateFirst": "Comenzar mi primer CV",
+    "navigation": {
+      "dashboard": "Dashboard",
+      "generate": "Generar CV",
+      "history": "Historial",
+      "profile": "Mi Perfil"
+    },
+    "navbar": {
+      "profile": "Perfil Verificado",
+      "logout": "Cerrar Sesión"
+    },
+    "stats": {
+      "totalCvs": "CVs Generados",
+      "averageScore": "Score ATS Promedio",
+      "lastCv": "Último Generado"
+    }
   }
 }
