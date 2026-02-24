@@ -89,7 +89,9 @@
   "history": {
     "title": "CV History",
     "description": "Manage and download the CVs you've generated optimized for each vacancy.",
-    "empty": "You haven't generated any CVs yet. Start now!",
+    "empty": "You don't have any CVs in your history yet. Start by tailoring your profile to a job vacancy to see them here.",
+    "noHistory": "Your history is empty",
+    "generateFirst": "Generate my first CV",
     "delete": "Delete CV",
     "confirmDelete": "Are you sure you want to delete this CV? This action is irreversible.",
     "deleteError": "Error deleting CV.",

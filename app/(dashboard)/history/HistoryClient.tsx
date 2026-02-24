@@ -4,6 +4,9 @@ import { useState } from "react";
 import { CvHistoryCard } from "@/components/dashboard/CvHistoryCard";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/Button";
+import Link from "next/link";
+import { Ghost } from "lucide-react";
 
 interface HistoryClientProps {
   initialCvs: any[];
@@ -35,13 +38,17 @@ export const HistoryClient = ({ initialCvs }: HistoryClientProps) => {
 
   if (cvs.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-100 py-20 text-center">
-        <div className="mb-4 text-gray-300">
-           <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-           </svg>
+      <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-100 py-24 text-center">
+        <div className="mb-6 rounded-full bg-gray-50 p-6">
+           <Ghost className="h-12 w-12 text-gray-300" />
         </div>
-        <p className="text-gray-500 font-medium">{t("empty")}</p>
+        <h3 className="text-lg font-bold text-gray-900">{t("noHistory")}</h3>
+        <p className="mt-2 text-gray-500 max-w-xs mx-auto">{t("empty")}</p>
+        <Link href="/generate" className="mt-8">
+          <Button className="font-bold px-8">
+            {t("generateFirst")}
+          </Button>
+        </Link>
       </div>
     );
   }

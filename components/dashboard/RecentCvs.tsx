@@ -56,13 +56,14 @@ export const RecentCvs = ({ initialCvs }: RecentCvsProps) => {
 
   if (cvs.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-100 py-16 text-center">
-        <div className="mb-4 rounded-full bg-slate-50 p-4">
-          <FilePlus className="h-8 w-8 text-gray-300" />
+      <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-100 py-20 text-center">
+        <div className="mb-6 rounded-full bg-slate-50 p-6">
+          <FilePlus className="h-10 w-10 text-gray-300" />
         </div>
-        <p className="text-gray-500 font-bold">{t("noRecentCvs")}</p>
-        <Link href="/generate" className="mt-4">
-          <Button variant="outline" size="sm" className="font-bold">
+        <h3 className="text-lg font-bold text-gray-900">{t("noRecentActivity")}</h3>
+        <p className="mt-2 text-gray-500 max-w-xs mx-auto">{t("noRecentCvs")}</p>
+        <Link href="/generate" className="mt-8">
+          <Button variant="default" className="font-bold px-8">
             {t("generateFirst")}
           </Button>
         </Link>
