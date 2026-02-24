@@ -9,14 +9,16 @@ const profileSchema = z.object({
     company: z.string().min(1),
     position: z.string().min(1),
     startDate: z.string().min(1),
-    endDate: z.string().min(1),
+    endDate: z.string().optional(),
+    isCurrent: z.boolean().optional(),
     description: z.string().min(1),
   })),
   education: z.array(z.object({
     institution: z.string().min(1),
     degree: z.string().min(1),
     startDate: z.string().min(1),
-    endDate: z.string().min(1),
+    endDate: z.string().optional(),
+    isOngoing: z.boolean().optional(),
   })),
   skills: z.array(z.string()),
   languages: z.array(z.object({
