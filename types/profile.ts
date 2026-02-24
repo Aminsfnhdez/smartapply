@@ -3,6 +3,7 @@ export interface Experience {
   position: string;
   startDate: string;
   endDate: string;
+  isCurrent?: boolean;
   description: string;
 }
 
@@ -11,6 +12,7 @@ export interface Education {
   degree: string;
   startDate: string;
   endDate: string;
+  isOngoing?: boolean;
 }
 
 export interface Language {

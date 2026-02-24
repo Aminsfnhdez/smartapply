@@ -49,7 +49,7 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
     }
   };
 
-  const updateField = (field: keyof ProfileFormData, value: any) => {
+  const updateField = (field: keyof ProfileFormData, value: unknown) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -94,7 +94,12 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
 
         {step === 2 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
-            <h2 className="text-xl font-bold text-gray-900">{t("steps.experience")}</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-900">{t("steps.experience")}</h2>
+              <p className="text-xs text-blue-600 bg-blue-50 px-3 py-1 rounded-full font-medium">
+                {t("orderNote")}
+              </p>
+            </div>
             {formData.experience.map((exp, index) => (
               <div key={index} className="relative space-y-4 rounded-xl border bg-gray-50 p-6">
                 <button
@@ -128,9 +133,10 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                       className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
                     />
                   </div>
-                  <div>
+                  <div className="flex flex-col gap-2">
                     <label className="text-xs font-medium uppercase text-gray-500">{t("fields.startDate")}</label>
                     <input
+                      placeholder={t("fields.datePlaceholder")}
                       value={exp.startDate}
                       onChange={(e) => {
                         const newExp = [...formData.experience];
@@ -140,16 +146,37 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                       className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
                     />
                   </div>
-                  <div>
-                    <label className="text-xs font-medium uppercase text-gray-500">{t("fields.endDate")}</label>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-medium uppercase text-gray-500">{t("fields.endDate")}</label>
+                      <label className="flex items-center gap-1.5 text-[10px] font-bold text-blue-600 uppercase cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={exp.isCurrent}
+                          onChange={(e) => {
+                            const newExp = [...formData.experience];
+                            newExp[index].isCurrent = e.target.checked;
+                            if (e.target.checked) newExp[index].endDate = "";
+                            updateField("experience", newExp);
+                          }}
+                          className="h-3 w-3 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        />
+                        {t("fields.isCurrent")}
+                      </label>
+                    </div>
                     <input
+                      placeholder={t("fields.datePlaceholder")}
                       value={exp.endDate}
+                      disabled={exp.isCurrent}
                       onChange={(e) => {
                         const newExp = [...formData.experience];
                         newExp[index].endDate = e.target.value;
                         updateField("experience", newExp);
                       }}
-                      className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                      className={cn(
+                        "mt-1 block w-full rounded-lg border-gray-300 bg-white",
+                        exp.isCurrent && "bg-gray-100 cursor-not-allowed opacity-60"
+                      )}
                     />
                   </div>
                 </div>
@@ -183,7 +210,12 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
 
         {step === 3 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
-            <h2 className="text-xl font-bold text-gray-900">{t("steps.education")}</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-900">{t("steps.education")}</h2>
+              <p className="text-xs text-blue-600 bg-blue-50 px-3 py-1 rounded-full font-medium">
+                {t("orderNote")}
+              </p>
+            </div>
             {formData.education.map((edu, index) => (
               <div key={index} className="relative space-y-4 rounded-xl border bg-gray-50 p-6">
                 <button
@@ -217,10 +249,11 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                       className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-2">
                       <label className="text-xs font-medium uppercase text-gray-500">{t("fields.startDate")}</label>
                       <input
+                        placeholder={t("fields.datePlaceholder")}
                         value={edu.startDate}
                         onChange={(e) => {
                           const newEdu = [...formData.education];
@@ -230,16 +263,37 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                         className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
                       />
                     </div>
-                    <div>
-                      <label className="text-xs font-medium uppercase text-gray-500">{t("fields.endDate")}</label>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium uppercase text-gray-500">{t("fields.endDate")}</label>
+                        <label className="flex items-center gap-1.5 text-[10px] font-bold text-blue-600 uppercase cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={edu.isOngoing}
+                            onChange={(e) => {
+                              const newEdu = [...formData.education];
+                              newEdu[index].isOngoing = e.target.checked;
+                              if (e.target.checked) newEdu[index].endDate = "";
+                              updateField("education", newEdu);
+                            }}
+                            className="h-3 w-3 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                          {t("fields.isOngoing")}
+                        </label>
+                      </div>
                       <input
+                        placeholder={t("fields.datePlaceholder")}
                         value={edu.endDate}
+                        disabled={edu.isOngoing}
                         onChange={(e) => {
                           const newEdu = [...formData.education];
                           newEdu[index].endDate = e.target.value;
                           updateField("education", newEdu);
                         }}
-                        className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                        className={cn(
+                          "mt-1 block w-full rounded-lg border-gray-300 bg-white",
+                          edu.isOngoing && "bg-gray-100 cursor-not-allowed opacity-60"
+                        )}
                       />
                     </div>
                   </div>

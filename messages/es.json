@@ -18,6 +18,7 @@
   "profile": {
     "title": "Configura tu Perfil Profesional",
     "description": "Completa tu información para que la IA pueda adaptar tus CVs de forma precisa.",
+    "orderNote": "Ingresa tu historial desde el más reciente al más antiguo para mejores resultados.",
     "steps": {
       "personal": "Datos Personales",
       "experience": "Experiencia",
@@ -37,7 +38,10 @@
       "languageName": "Idioma",
       "languageLevel": "Nivel",
       "skills": "Habilidades (separadas por coma)",
-      "certifications": "Certificaciones (separadas por coma)"
+      "certifications": "Certificaciones (separadas por coma)",
+      "isCurrent": "Actualmente trabajo aquí",
+      "isOngoing": "En curso",
+      "datePlaceholder": "Ej: Ene 2022"
     },
     "actions": {
       "next": "Siguiente",
