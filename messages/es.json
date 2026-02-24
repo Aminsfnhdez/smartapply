@@ -22,7 +22,8 @@
       "personal": "Datos Personales",
       "experience": "Experiencia",
       "education": "Educación",
-      "skills": "Habilidades y Otros"
+      "skills": "Habilidades y Otros",
+      "addLanguage": "Idiomas"
     },
     "fields": {
       "summary": "Resumen Profesional",

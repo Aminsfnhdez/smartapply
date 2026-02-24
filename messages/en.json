@@ -22,7 +22,8 @@
       "personal": "Personal Info",
       "experience": "Experience",
       "education": "Education",
-      "skills": "Skills & Others"
+      "skills": "Skills & Others",
+      "addLanguage": "Languages"
     },
     "fields": {
       "summary": "Professional Summary",
