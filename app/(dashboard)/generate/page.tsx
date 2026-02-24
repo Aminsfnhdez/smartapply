@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/Button";
 import { AtsScoreBar } from "@/components/dashboard/AtsScoreBar";
+import { FileText, Layout, Type, CheckCircle2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { GeneratedCvContent, AtsScoreResponse } from "@/types/cv";
 
 export default function GeneratePage() {
@@ -91,20 +93,48 @@ export default function GeneratePage() {
             <label className="block text-sm font-bold uppercase tracking-wider text-gray-700">
               {t("templateLabel")}
             </label>
-            <div className="grid grid-cols-3 gap-4">
-              {["classic", "modern", "minimalist"].map((tKey) => (
-                <button
-                  key={tKey}
-                  onClick={() => setTemplate(tKey as any)}
-                  className={`rounded-xl border-2 p-4 text-sm font-semibold transition-all ${
-                    template === tKey
-                      ? "border-blue-600 bg-blue-50 text-blue-600 shadow-md"
-                      : "border-gray-100 bg-white text-gray-500 hover:border-gray-200"
-                  }`}
-                >
-                  {t(`template${tKey.charAt(0).toUpperCase() + tKey.slice(1)}`)}
-                </button>
-              ))}
+            <div className="flex gap-4 overflow-x-auto pb-4 sm:grid sm:grid-cols-3 sm:overflow-visible">
+              {[
+                { id: "classic", icon: FileText },
+                { id: "modern", icon: Layout },
+                { id: "minimalist", icon: Type },
+              ].map((item) => {
+                const Icon = item.icon;
+                const isSelected = template === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setTemplate(item.id as any)}
+                    className={cn(
+                      "relative flex min-w-[200px] flex-col items-start gap-3 rounded-2xl border-2 p-5 text-left transition-all sm:min-w-0",
+                      isSelected
+                        ? "border-blue-600 bg-blue-50/50 shadow-md ring-1 ring-blue-600/20"
+                        : "border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50/50"
+                    )}
+                  >
+                    <div className={cn(
+                      "rounded-lg p-2.5",
+                      isSelected ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-500"
+                    )}>
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h4 className={cn(
+                        "font-bold",
+                        isSelected ? "text-blue-900" : "text-gray-900"
+                      )}>
+                        {t(`template${item.id.charAt(0).toUpperCase() + item.id.slice(1)}`)}
+                      </h4>
+                      <p className="mt-1 text-xs leading-relaxed text-gray-500">
+                        {t(`template${item.id.charAt(0).toUpperCase() + item.id.slice(1)}Desc`)}
+                      </p>
+                    </div>
+                    {isSelected && (
+                      <CheckCircle2 className="absolute right-3 top-3 h-5 w-5 text-blue-600" />
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
