@@ -111,5 +111,38 @@
       "averageScore": "Score ATS Promedio",
       "lastCv": "Último Generado"
     }
+  },
+  "landing": {
+    "login": "Iniciar Sesión",
+    "goToDashboard": "Ir al Dashboard",
+    "hero": {
+      "badge": "IA de última generación",
+      "title": "Tu CV perfecto para cada vacante",
+      "subtitle": "Impulsa tu carrera con SmartApply. Nuestra IA analiza ofertas de empleo y adapta tu perfil profesional en segundos para que destaques ante los reclutadores.",
+      "cta": "Empezar Gratis",
+      "noCredit": "No requiere tarjeta de crédito"
+    },
+    "features": {
+      "ai": {
+        "title": "Adaptación Inteligente",
+        "desc": "Claude 3.5 Sonnet analiza tu perfil y la descripción de la vacante para redactar el CV ideal."
+      },
+      "ats": {
+        "title": "Optimización ATS",
+        "desc": "Puntuación de compatibilidad en tiempo real para asegurar que superes los filtros automáticos."
+      },
+      "templates": {
+        "title": "Plantillas Premium",
+        "desc": "Diseños profesionales optimizados para ser leídos por sistemas ATS y humanos por igual."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para conseguir tu próximo gran empleo?",
+      "desc": "Únete a los profesionales que ya están usando la IA para acelerar su búsqueda laboral.",
+      "button": "Crea tu cuenta ahora"
+    },
+    "footer": {
+      "rights": "Todos los derechos reservados."
+    }
   }
 }

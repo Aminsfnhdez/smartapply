@@ -111,5 +111,38 @@
       "averageScore": "Average ATS Score",
       "lastCv": "Last Generated"
     }
+  },
+  "landing": {
+    "login": "Sign In",
+    "goToDashboard": "Go to Dashboard",
+    "hero": {
+      "badge": "Next-gen AI",
+      "title": "Your perfect CV for every job",
+      "subtitle": "Boost your career with SmartApply. Our AI analyzes job offers and tailors your professional profile in seconds to help you stand out to recruiters.",
+      "cta": "Start for Free",
+      "noCredit": "No credit card required"
+    },
+    "features": {
+      "ai": {
+        "title": "Smart Adaptation",
+        "desc": "Claude 3.5 Sonnet analyzes your profile and the job description to write the ideal CV."
+      },
+      "ats": {
+        "title": "ATS Optimization",
+        "desc": "Real-time compatibility scoring to ensure you pass automated filters."
+      },
+      "templates": {
+        "title": "Premium Templates",
+        "desc": "Professional designs optimized to be read by ATS systems and humans alike."
+      }
+    },
+    "cta": {
+      "title": "Ready to land your next big job?",
+      "desc": "Join professionals already using AI to accelerate their job search.",
+      "button": "Create your account now"
+    },
+    "footer": {
+      "rights": "All rights reserved."
+    }
   }
 }
