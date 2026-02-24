@@ -1,65 +1,138 @@
-import Image from "next/image";
+import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { getTranslations } from "next-intl/server";
+import Link from "next/link";
+import { Button } from "@/components/ui/Button";
+import { Sparkles, CheckCircle, Zap, ShieldCheck, ArrowRight } from "lucide-react";
 
-export default function Home() {
+export default async function LandingPage() {
+  const session = await auth();
+  const t = await getTranslations("landing");
+
+  const features = [
+    {
+      title: t("features.ai.title"),
+      desc: t("features.ai.desc"),
+      icon: Zap,
+      color: "text-blue-600",
+      bg: "bg-blue-50"
+    },
+    {
+      title: t("features.ats.title"),
+      desc: t("features.ats.desc"),
+      icon: ShieldCheck,
+      color: "text-green-600",
+      bg: "bg-green-50"
+    },
+    {
+      title: t("features.templates.title"),
+      desc: t("features.templates.desc"),
+      icon: Sparkles,
+      color: "text-purple-600",
+      bg: "bg-purple-50"
+    }
+  ];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="flex min-h-screen flex-col bg-white">
+      {/* Header */}
+      <header className="fixed top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">S</div>
+            <span className="text-xl font-bold tracking-tight text-gray-900">SmartApply</span>
+          </div>
+          
+          <Link href={session ? "/dashboard" : "/login"}>
+            <Button variant="ghost" className="font-bold">
+              {session ? t("goToDashboard") : t("login")}
+            </Button>
+          </Link>
+        </div>
+      </header>
+
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-1.5 text-sm font-bold text-blue-600">
+                <Sparkles className="h-4 w-4" />
+                <span>{t("hero.badge")}</span>
+              </div>
+              <h1 className="mt-8 text-5xl font-black tracking-tight text-gray-900 sm:text-7xl">
+                {t("hero.title")}<span className="text-blue-600">.</span>
+              </h1>
+              <p className="mx-auto mt-6 max-w-2xl text-xl font-medium text-gray-500 leading-relaxed">
+                {t("hero.subtitle")}
+              </p>
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Link href={session ? "/dashboard" : "/login"}>
+                  <Button size="lg" className="h-14 px-8 text-lg font-bold shadow-2xl shadow-blue-200 transition-all hover:scale-105 active:scale-95">
+                    {t("hero.cta")}
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <p className="text-sm font-bold text-gray-400">
+                   {t("hero.noCredit")}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Background Decoration */}
+          <div className="absolute top-0 -z-10 h-full w-full opacity-30">
+            <div className="absolute top-1/4 left-1/4 h-64 w-64 rounded-full bg-blue-100 blur-3xl" />
+            <div className="absolute bottom-1/4 right-1/4 h-80 w-80 rounded-full bg-indigo-100 blur-3xl" />
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="bg-slate-50 py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
+              {features.map((feature, i) => (
+                <div key={i} className="relative rounded-3xl border border-gray-100 bg-white p-8 shadow-sm transition-all hover:shadow-xl">
+                  <div className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl ${feature.bg} ${feature.color} mb-6`}>
+                    <feature.icon className="h-8 w-8" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900">{feature.title}</h3>
+                  <p className="mt-4 font-medium text-gray-500 leading-relaxed">
+                    {feature.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Benefits Section */}
+        <section className="py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="rounded-3xl bg-blue-600 p-8 py-16 text-center text-white shadow-2xl sm:p-16 lg:p-24">
+              <h2 className="text-4xl font-black sm:text-5xl">{t("cta.title")}</h2>
+              <p className="mx-auto mt-6 max-w-xl text-lg font-medium text-blue-100">
+                {t("cta.desc")}
+              </p>
+              <div className="mt-10">
+                <Link href={session ? "/dashboard" : "/login"}>
+                  <Button variant="secondary" size="lg" className="h-14 px-10 text-lg font-bold text-blue-600 border-none hover:bg-white transition-colors">
+                    {t("cta.button")}
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-100 bg-white py-12">
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <p className="text-sm font-bold text-gray-400">
+            © {new Date().getFullYear()} SmartApply. {t("footer.rights")}
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </footer>
     </div>
   );
 }
