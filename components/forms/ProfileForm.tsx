@@ -19,11 +19,20 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<ProfileFormData>({
     summary: initialData?.summary || "",
+    fullName: initialData?.fullName || "",
+    jobTitle: initialData?.jobTitle || "",
+    phone: initialData?.phone || "",
+    email: initialData?.email || "",
+    city: initialData?.city || "",
+    linkedin: initialData?.linkedin || "",
+    portfolio: initialData?.portfolio || "",
     experience: initialData?.experience || [],
     education: initialData?.education || [],
-    skills: initialData?.skills || [],
+    technicalSkills: initialData?.technicalSkills || [],
+    softSkills: initialData?.softSkills || [],
     languages: initialData?.languages || [],
     certifications: initialData?.certifications || [],
+    complementaryEducation: initialData?.complementaryEducation || [],
   });
 
   const handleSave = async () => {
@@ -77,12 +86,73 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
         {step === 1 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
             <h2 className="text-xl font-bold text-gray-900">{t("steps.personal")}</h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label className="text-xs font-medium uppercase text-gray-500">{t("fields.fullName")}</label>
+                <input
+                  value={formData.fullName || ""}
+                  onChange={(e) => updateField("fullName", e.target.value)}
+                  className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium uppercase text-gray-500">{t("fields.jobTitle")}</label>
+                <input
+                  value={formData.jobTitle || ""}
+                  onChange={(e) => updateField("jobTitle", e.target.value)}
+                  className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium uppercase text-gray-500">{t("fields.phone")}</label>
+                <input
+                  value={formData.phone || ""}
+                  onChange={(e) => updateField("phone", e.target.value)}
+                  className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium uppercase text-gray-500">{t("fields.email")}</label>
+                <input
+                  type="email"
+                  value={formData.email || ""}
+                  onChange={(e) => updateField("email", e.target.value)}
+                  className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium uppercase text-gray-500">{t("fields.city")}</label>
+                <input
+                  value={formData.city || ""}
+                  onChange={(e) => updateField("city", e.target.value)}
+                  className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium uppercase text-gray-500">{t("fields.linkedin")} ({t("optional")})</label>
+                <input
+                  type="url"
+                  value={formData.linkedin || ""}
+                  onChange={(e) => updateField("linkedin", e.target.value)}
+                  className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="text-xs font-medium uppercase text-gray-500">{t("fields.portfolio")} ({t("optional")})</label>
+                <input
+                  type="url"
+                  value={formData.portfolio || ""}
+                  onChange={(e) => updateField("portfolio", e.target.value)}
+                  className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                />
+              </div>
+            </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">{t("fields.summary")}</label>
+              <label className="block text-sm font-medium text-gray-700 mt-4">{t("fields.summary")}</label>
               <textarea
                 value={formData.summary || ""}
                 onChange={(e) => updateField("summary", e.target.value)}
-                rows={6}
+                rows={4}
                 className="mt-2 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               />
             </div>
@@ -128,6 +198,18 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                       onChange={(e) => {
                         const newExp = [...formData.experience];
                         newExp[index].position = e.target.value;
+                        updateField("experience", newExp);
+                      }}
+                      className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="text-xs font-medium uppercase text-gray-500">{t("fields.city")} ({t("optional")})</label>
+                    <input
+                      value={exp.city || ""}
+                      onChange={(e) => {
+                        const newExp = [...formData.experience];
+                        newExp[index].city = e.target.value;
                         updateField("experience", newExp);
                       }}
                       className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
@@ -249,6 +331,36 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
                       className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
                     />
                   </div>
+                  <div className="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="text-xs font-medium uppercase text-gray-500">{t("fields.city")} ({t("optional")})</label>
+                      <input
+                        value={edu.city || ""}
+                        onChange={(e) => {
+                          const newEdu = [...formData.education];
+                          newEdu[index].city = e.target.value;
+                          updateField("education", newEdu);
+                        }}
+                        className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium uppercase text-gray-500">{t("fields.status")}</label>
+                      <select
+                        value={edu.status || "finished"}
+                        onChange={(e) => {
+                          const newEdu = [...formData.education];
+                          newEdu[index].status = e.target.value as Education["status"];
+                          updateField("education", newEdu);
+                        }}
+                        className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                      >
+                        <option value="finished">{t("fields.statusFinished")}</option>
+                        <option value="ongoing">{t("fields.statusOngoing")}</option>
+                        <option value="incomplete">{t("fields.statusIncomplete")}</option>
+                      </select>
+                    </div>
+                  </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col gap-2">
                       <label className="text-xs font-medium uppercase text-gray-500">{t("fields.startDate")}</label>
@@ -316,16 +428,28 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
         {step === 4 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
             <h2 className="text-xl font-bold text-gray-900">{t("steps.skills")}</h2>
-            <div>
-              <label className="text-xs font-medium uppercase text-gray-500">{t("fields.skills")}</label>
-              <input
-                value={formData.skills.join(", ")}
-                onChange={(e) => updateField("skills", e.target.value.split(",").map(s => s.trim()))}
-                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm"
-              />
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div>
+                <label className="text-xs font-medium uppercase text-gray-500">{t("fields.technicalSkills")}</label>
+                <input
+                  value={formData.technicalSkills.join(", ")}
+                  onChange={(e) => updateField("technicalSkills", e.target.value.split(",").map(s => s.trim()))}
+                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm"
+                  placeholder="React, Node.js, Python..."
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium uppercase text-gray-500">{t("fields.softSkills")}</label>
+                <input
+                  value={formData.softSkills.join(", ")}
+                  onChange={(e) => updateField("softSkills", e.target.value.split(",").map(s => s.trim()))}
+                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm"
+                  placeholder="Liderazgo, Comunicación..."
+                />
+              </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 pt-4 border-t">
               <label className="text-xs font-medium uppercase text-gray-500">{t("steps.addLanguage")}</label>
               {formData.languages.map((lang, index) => (
                 <div key={index} className="flex gap-4">
@@ -366,13 +490,73 @@ export const ProfileForm = ({ initialData }: ProfileFormProps) => {
               </Button>
             </div>
 
-            <div>
+            <div className="pt-4 border-t">
               <label className="text-xs font-medium uppercase text-gray-500">{t("fields.certifications")}</label>
               <input
                 value={formData.certifications.join(", ")}
                 onChange={(e) => updateField("certifications", e.target.value.split(",").map(s => s.trim()))}
                 className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm"
               />
+            </div>
+
+            <div className="space-y-4 pt-4 border-t">
+              <label className="text-xs font-medium uppercase text-gray-500">{t("steps.complementaryEducation")}</label>
+              {formData.complementaryEducation.map((comp, index) => (
+                <div key={index} className="relative space-y-4 rounded-xl border bg-gray-50 p-6">
+                  <button
+                    onClick={() => updateField("complementaryEducation", formData.complementaryEducation.filter((_, i) => i !== index))}
+                    className="absolute right-4 top-4 text-gray-400 hover:text-red-500"
+                  >
+                    {t("actions.remove")}
+                  </button>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="sm:col-span-2">
+                      <label className="text-xs font-medium uppercase text-gray-500">{t("fields.institution")}</label>
+                      <input
+                        value={comp.institution}
+                        onChange={(e) => {
+                          const newComp = [...formData.complementaryEducation];
+                          newComp[index].institution = e.target.value;
+                          updateField("complementaryEducation", newComp);
+                        }}
+                        className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium uppercase text-gray-500">{t("fields.program")}</label>
+                      <input
+                        value={comp.program}
+                        onChange={(e) => {
+                          const newComp = [...formData.complementaryEducation];
+                          newComp[index].program = e.target.value;
+                          updateField("complementaryEducation", newComp);
+                        }}
+                        className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium uppercase text-gray-500">{t("fields.year")}</label>
+                      <input
+                        value={comp.year}
+                        onChange={(e) => {
+                          const newComp = [...formData.complementaryEducation];
+                          newComp[index].year = e.target.value;
+                          updateField("complementaryEducation", newComp);
+                        }}
+                        className="mt-1 block w-full rounded-lg border-gray-300 bg-white"
+                        placeholder="Ej: 2023"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => updateField("complementaryEducation", [...formData.complementaryEducation, { institution: "", program: "", year: "" }])}
+              >
+                {t("actions.addComplementaryEducation")}
+              </Button>
             </div>
 
             <div className="flex justify-between pt-4">
