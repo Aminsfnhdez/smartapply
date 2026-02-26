@@ -96,7 +96,7 @@
     "confirmDelete": "Are you sure you want to delete this CV? This action is irreversible.",
     "deleteError": "Error deleting CV.",
     "success_delete": "CV deleted successfully.",
-    "downloadError": "Error generating download file.",
+    "downloadError": "Error generating download file. Please try again.",
     "classic": "Classic",
     "modern": "Modern",
     "minimalist": "Minimalist"

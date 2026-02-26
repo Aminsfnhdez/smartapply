@@ -96,7 +96,7 @@
     "confirmDelete": "¿Estás seguro de que deseas eliminar este CV? Esta acción es irreversible.",
     "deleteError": "Error al eliminar el CV.",
     "success_delete": "CV eliminado correctamente.",
-    "downloadError": "Error al generar el archivo de descarga.",
+    "downloadError": "Error al generar el archivo de descarga. Intenta nuevamente.",
     "classic": "Clásico",
     "modern": "Moderno",
     "minimalist": "Minimalista"

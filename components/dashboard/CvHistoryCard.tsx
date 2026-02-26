@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/Button";
 import { Trash2, FileText } from "lucide-react";
 
@@ -36,11 +37,11 @@ const CvHistoryCard = ({ cv, onDelete }: CvHistoryCardProps) => {
       if (res.ok && data.url) {
         window.open(data.url, "_blank");
       } else {
-        alert(t("downloadError"));
+        toast.error(t("downloadError"));
       }
     } catch (error) {
       console.error(error);
-      alert(t("downloadError"));
+      toast.error(t("downloadError"));
     } finally {
       setIsExporting(false);
     }
