@@ -35,7 +35,7 @@ export const POST = async (req: NextRequest) => {
     );
 
     // 4. Subir a Supabase Storage
-    const fileName = `\${session.user.id}/\${cv.id}_\${template}.pdf`;
+    const fileName = `${session.user.id}/${cv.id}_${template}.pdf`;
     const { data, error: uploadError } = await supabaseAdmin.storage
       .from('cvs')
       .upload(fileName, pdfBuffer, {
