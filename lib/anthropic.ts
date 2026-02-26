@@ -78,3 +78,15 @@ export const callClaude = async ({
 
   throw new Error(`Claude API falló después de ${MAX_RETRIES} intentos: ${lastError?.message}`);
 };
+
+/**
+ * Limpia la respuesta de Claude eliminando bloques de código markdown
+ * para asegurar que JSON.parse() funcione correctamente.
+ */
+export const cleanJson = (raw: string): string => {
+  return raw
+    .replace(/^```json\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/```\s*$/i, '')
+    .trim();
+};

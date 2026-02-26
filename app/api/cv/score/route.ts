@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { auth } from '@/app/api/auth/[...nextauth]/route';
-import { callClaude, ATS_SYSTEM_PROMPT } from '@/lib/anthropic';
+import { callClaude, ATS_SYSTEM_PROMPT, cleanJson } from '@/lib/anthropic';
 import type { AtsScoreResponse } from '@/types/cv';
 
 const scoreSchema = z.object({
@@ -46,7 +46,7 @@ export const POST = async (req: NextRequest) => {
 
     let atsResponse: AtsScoreResponse;
     try {
-      atsResponse = JSON.parse(result);
+      atsResponse = JSON.parse(cleanJson(result));
     } catch {
       console.error('[POST /api/cv/score] Error al parsear JSON de Claude:', result);
       return NextResponse.json(

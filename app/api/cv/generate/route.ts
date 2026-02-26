@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { createHash } from 'crypto';
 import { auth } from '@/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
-import { callClaude, CV_SYSTEM_PROMPT, ATS_SYSTEM_PROMPT } from '@/lib/anthropic';
+import { callClaude, CV_SYSTEM_PROMPT, ATS_SYSTEM_PROMPT, cleanJson } from '@/lib/anthropic';
 import type { GeneratedCvContent, AtsScoreResponse } from '@/types/cv';
 
 const generateSchema = z.object({
@@ -78,7 +78,7 @@ export const POST = async (req: NextRequest) => {
 
     let generatedCv: GeneratedCvContent;
     try {
-      generatedCv = JSON.parse(result);
+      generatedCv = JSON.parse(cleanJson(result));
     } catch {
       console.error('[POST /api/cv/generate] Error al parsear JSON de Claude:', result);
       return NextResponse.json(
@@ -105,7 +105,7 @@ export const POST = async (req: NextRequest) => {
         userMessage: scoreMessage,
         maxTokens: 512,
       });
-      const parsedScore = JSON.parse(scoreResult) as AtsScoreResponse;
+      const parsedScore = JSON.parse(cleanJson(scoreResult)) as AtsScoreResponse;
       atsScore = parsedScore.score;
     } catch (scoreError) {
       console.warn('[POST /api/cv/generate] No se pudo obtener el score ATS:', scoreError);
