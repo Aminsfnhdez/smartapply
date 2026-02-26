@@ -18,6 +18,7 @@
   "profile": {
     "title": "Configura tu Perfil Profesional",
     "description": "Completa tu información para que la IA pueda adaptar tus CVs de forma precisa.",
+    "optional": "Opcional",
     "orderNote": "Ingresa tu historial desde el más reciente al más antiguo para mejores resultados.",
     "steps": {
       "personal": "Datos Personales",
