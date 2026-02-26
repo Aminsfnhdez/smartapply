@@ -18,7 +18,8 @@ Reglas estrictas:
 - NUNCA inventes ni alteres información verídica del usuario.
 - Prioriza y reformula la experiencia más relevante para el puesto.
 - Integra de forma natural las keywords clave de la vacante en el texto.
-- La estructura debe seguir este orden: Resumen, Experiencia, Educación, Habilidades.
+- La estructura principal debe seguir este orden: Datos Personales (fullName, jobTitle, contact info), Resumen, Experiencia, Educación, Habilidades, Idiomas y Educación Complementaria.
+- Separa las habilidades claramente en technicalSkills y softSkills.
 - Usa fechas en formato consistente: "Ene 2022 – Mar 2024".
 - Evita tablas, columnas múltiples, íconos o gráficos decorativos.
 - El resultado debe ser texto limpio y seleccionable, compatible con parsers ATS.

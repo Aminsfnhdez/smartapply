@@ -24,9 +24,17 @@
       "experience": "Experiencia",
       "education": "Educación",
       "skills": "Habilidades y Otros",
-      "addLanguage": "Idiomas"
+      "addLanguage": "Idiomas",
+      "complementaryEducation": "Educación Complementaria"
     },
     "fields": {
+      "fullName": "Nombre Completo",
+      "jobTitle": "Cargo Actual o Título",
+      "phone": "Teléfono",
+      "email": "Correo Electrónico",
+      "city": "Ciudad, País",
+      "linkedin": "Perfil de LinkedIn",
+      "portfolio": "Portfolio o Web Personal",
       "summary": "Resumen Profesional",
       "company": "Empresa",
       "position": "Cargo",
@@ -37,11 +45,18 @@
       "degree": "Título/Grado",
       "languageName": "Idioma",
       "languageLevel": "Nivel",
-      "skills": "Habilidades (separadas por coma)",
+      "technicalSkills": "Habilidades Técnicas (separadas por coma)",
+      "softSkills": "Habilidades Blandas (separadas por coma)",
       "certifications": "Certificaciones (separadas por coma)",
       "isCurrent": "Actualmente trabajo aquí",
       "isOngoing": "En curso",
-      "datePlaceholder": "Ej: Ene 2022"
+      "status": "Estado",
+      "statusFinished": "Finalizado",
+      "statusOngoing": "En curso",
+      "statusIncomplete": "Incompleto",
+      "datePlaceholder": "Ej: Ene 2022",
+      "program": "Programa o Curso",
+      "year": "Año"
     },
     "actions": {
       "next": "Siguiente",
@@ -51,6 +66,7 @@
       "addExperience": "Agregar Experiencia",
       "addEducation": "Agregar Educación",
       "addLanguage": "Agregar Idioma",
+      "addComplementaryEducation": "Agregar Educación Complementaria",
       "remove": "Quitar"
     },
     "messages": {

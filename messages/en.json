@@ -24,9 +24,17 @@
       "experience": "Experience",
       "education": "Education",
       "skills": "Skills & Others",
-      "addLanguage": "Languages"
+      "addLanguage": "Languages",
+      "complementaryEducation": "Complementary Education"
     },
     "fields": {
+      "fullName": "Full Name",
+      "jobTitle": "Current Job Title",
+      "phone": "Phone",
+      "email": "Email",
+      "city": "City, Country",
+      "linkedin": "LinkedIn Profile",
+      "portfolio": "Portfolio / Personal Web",
       "summary": "Professional Summary",
       "company": "Company",
       "position": "Position",
@@ -37,11 +45,18 @@
       "degree": "Degree",
       "languageName": "Language",
       "languageLevel": "Level",
-      "skills": "Skills (comma separated)",
+      "technicalSkills": "Technical Skills (comma separated)",
+      "softSkills": "Soft Skills (comma separated)",
       "certifications": "Certifications (comma separated)",
       "isCurrent": "I currently work here",
       "isOngoing": "Ongoing",
-      "datePlaceholder": "e.g. Jan 2022"
+      "status": "Status",
+      "statusFinished": "Finished",
+      "statusOngoing": "Ongoing",
+      "statusIncomplete": "Incomplete",
+      "datePlaceholder": "e.g. Jan 2022",
+      "program": "Program or Course",
+      "year": "Year"
     },
     "actions": {
       "next": "Next",
@@ -51,6 +66,7 @@
       "addExperience": "Add Experience",
       "addEducation": "Add Education",
       "addLanguage": "Add Language",
+      "addComplementaryEducation": "Add Complementary Education",
       "remove": "Remove"
     },
     "messages": {
