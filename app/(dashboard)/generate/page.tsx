@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { AtsScoreBar } from "@/components/dashboard/AtsScoreBar";
 import { FileText, Layout, Type, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CvPreview } from "@/components/dashboard/CvPreview";
 import type { GeneratedCvContent, AtsScoreResponse } from "@/types/cv";
 
 export default function GeneratePage() {
@@ -160,13 +161,11 @@ export default function GeneratePage() {
           )}
 
           {generatedCv && (
-            <div className="rounded-2xl border bg-gray-50 p-8 shadow-inner">
-               {/* Aquí irá el componente Preview del CV en la siguiente iteración */}
-               <h3 className="mb-4 text-center font-bold text-gray-400">PREVIEW DEL CV GENERADO</h3>
-               <pre className="overflow-auto text-[10px] text-gray-500">
-                 {JSON.stringify(generatedCv, null, 2)}
-               </pre>
-            </div>
+            <CvPreview 
+              content={generatedCv} 
+              template={template} 
+              language="es" 
+            />
           )}
         </div>
       </div>

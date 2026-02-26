@@ -73,6 +73,8 @@
     "button": "Generar con Claude API",
     "loading": "Claude está analizando y redactando...",
     "success_generation": "¡CV generado con éxito!",
+    "previewTitle": "Previsualización del CV",
+    "previewNote": "Esta es una vista previa interactiva. El PDF final se generará exactamente con este diseño.",
     "errors": {
       "noProfile": "Primero debes completar tu perfil profesional.",
       "tooShort": "La descripción debe tener al menos 50 caracteres.",
