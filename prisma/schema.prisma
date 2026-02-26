@@ -61,16 +61,25 @@ model VerificationToken {
 }
 
 model Profile {
-  id            String   @id @default(cuid())
-  userId        String   @unique
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  summary       String?  @db.Text
-  experience    Json?    // Array of experience objects
-  education     Json?    // Array of education objects
-  skills        String[]
-  languages     Json?    // Array of language objects
-  certifications String[]
-  createdAt     DateTime @default(now())
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName       String?
+  jobTitle       String?
+  phone          String?
+  email          String?
+  city           String?
+  linkedin       String?
+  portfolio      String?
+  summary        String?  @db.Text
+  experience     Json?    // Array of experience objects
+  education      Json?    // Array of education objects
+  technicalSkills String[]
+  softSkills      String[]
+  languages      Json?    // Array of language objects
+  certifications  String[]
+  complementaryEducation Json? // Array of complementary education objects
+  createdAt      DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
 
