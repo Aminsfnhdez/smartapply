@@ -87,10 +87,15 @@ model CV {
   id               String   @id @default(cuid())
   userId           String
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobTitle         String   @default("")
+  company          String?
   jobDescription   String   @db.Text
-  generatedContent Json     // Content as defined in GeneratedCvContent interface
+  generatedContent Json
+  template         String   @default("classic")
+  language         String   @default("es")
   atsScore         Int      @default(0)
-  cacheKey         String   // Hash of profile + job description
+  cacheKey         String
+  pdfUrl           String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
