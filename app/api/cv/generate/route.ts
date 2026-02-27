@@ -76,7 +76,7 @@ export const POST = async (req: NextRequest) => {
       Perfil profesional completo del usuario:
       ${JSON.stringify(profile)}
 
-      Idioma de respuesta: ${language === 'es' ? 'Español' : 'Inglés'}
+      outputLanguage: ${language}
 
       Devuelve el CV adaptado en formato JSON siguiendo exactamente la estructura indicada en el system prompt. Incluye personalInfo como primer campo.
     `;
