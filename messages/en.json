@@ -92,6 +92,10 @@
     "success_generation": "CV generated successfully!",
     "previewTitle": "CV Preview",
     "previewNote": "This is an interactive preview. The final PDF will be generated with this exact design.",
+    "downloadPdf": "Download PDF",
+    "downloadLoading": "Generating PDF...",
+    "downloadSuccess": "PDF downloaded successfully",
+    "downloadError": "Error generating PDF. Please try again.",
     "errors": {
       "noProfile": "You must first complete your professional profile.",
       "tooShort": "The description must be at least 50 characters long.",

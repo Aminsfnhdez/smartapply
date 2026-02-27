@@ -55,7 +55,7 @@ export const POST = async (req: NextRequest) => {
     });
 
     if (cached) {
-      return NextResponse.json({ cv: cached.generatedContent, fromCache: true }, { status: 200 });
+      return NextResponse.json({ cv: cached.generatedContent, cvId: cached.id, fromCache: true }, { status: 200 });
     }
 
     // 5. Llamar a Claude API
@@ -133,7 +133,7 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
-    return NextResponse.json({ cv: savedCv.generatedContent, fromCache: false }, { status: 200 });
+    return NextResponse.json({ cv: savedCv.generatedContent, cvId: savedCv.id, fromCache: false }, { status: 200 });
 
   } catch (error) {
     console.error('[POST /api/cv/generate]', error);

@@ -17,6 +17,7 @@ export default function GeneratePage() {
   const [loading, setLoading] = useState(false);
   const [generatedCv, setGeneratedCv] = useState<GeneratedCvContent | null>(null);
   const [atsScore, setAtsScore] = useState<AtsScoreResponse | null>(null);
+  const [cvId, setCvId] = useState<string | null>(null);
 
   const handleGenerate = async () => {
     if (jobDescription.length < 50) {
@@ -28,6 +29,7 @@ export default function GeneratePage() {
     setLoading(true);
     setGeneratedCv(null);
     setAtsScore(null);
+    setCvId(null);
 
     try {
       const res = await fetch("/api/cv/generate", {
@@ -45,6 +47,7 @@ export default function GeneratePage() {
       toast.success(t("success_generation"), { id: toastId });
 
       setGeneratedCv(data.cv);
+      setCvId(data.cvId);
 
       // Una vez generado el CV, pedimos el score ATS
       const scoreRes = await fetch("/api/cv/score", {
@@ -165,6 +168,7 @@ export default function GeneratePage() {
               content={generatedCv} 
               template={template} 
               language="es" 
+              cvId={cvId}
             />
           )}
         </div>
