@@ -122,15 +122,31 @@ const pdfStyles = StyleSheet.create({
 
 export const ModernTemplatePDF = ({ content }: CvTemplateProps) => (
   <Document>
-    <Page size="A4" style={pdfStyles.page}>
+    <Page size="A4" style={pdfStyles.page} wrap>
       <View style={pdfStyles.topBar} />
       <View style={pdfStyles.content}>
-        <View style={pdfStyles.header}>
-          <Text style={pdfStyles.title}>Perfil Profesional</Text>
-          <View style={pdfStyles.summaryWrapper}>
-            <View style={pdfStyles.summaryBar} />
-            <Text style={pdfStyles.summary}>{content.summary}</Text>
+        {/* Personal Info Header */}
+        {content.personalInfo && (
+          <View style={pdfStyles.header}>
+            {content.personalInfo.fullName && (
+              <Text style={pdfStyles.title}>{content.personalInfo.fullName}</Text>
+            )}
+            {content.personalInfo.jobTitle && (
+              <Text style={{ fontSize: 11, color: '#475569', marginTop: 4 }}>{content.personalInfo.jobTitle}</Text>
+            )}
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 }}>
+              {content.personalInfo.email && <Text style={{ fontSize: 8, color: '#2563eb' }}>{content.personalInfo.email}</Text>}
+              {content.personalInfo.phone && <Text style={{ fontSize: 8, color: '#475569' }}>• {content.personalInfo.phone}</Text>}
+              {content.personalInfo.city && <Text style={{ fontSize: 8, color: '#475569' }}>• {content.personalInfo.city}</Text>}
+              {content.personalInfo.linkedin && <Text style={{ fontSize: 8, color: '#2563eb' }}>• {content.personalInfo.linkedin}</Text>}
+            </View>
           </View>
+        )}
+
+        {/* Summary */}
+        <View style={pdfStyles.summaryWrapper}>
+          <View style={pdfStyles.summaryBar} />
+          <Text style={pdfStyles.summary}>{content.summary}</Text>
         </View>
 
         <View style={pdfStyles.section}>
@@ -139,7 +155,7 @@ export const ModernTemplatePDF = ({ content }: CvTemplateProps) => (
             <View style={pdfStyles.sectionDivider} />
           </View>
           {content.experience.map((exp, i) => (
-            <View key={i} style={pdfStyles.experienceItem}>
+            <View key={i} style={pdfStyles.experienceItem} wrap={false}>
               <View style={pdfStyles.experienceHeader}>
                 <Text style={pdfStyles.position}>{exp.position}</Text>
                 <Text style={pdfStyles.date}>{exp.startDate} - {exp.endDate}</Text>
@@ -156,7 +172,7 @@ export const ModernTemplatePDF = ({ content }: CvTemplateProps) => (
             <View style={pdfStyles.sectionDivider} />
           </View>
           {content.education.map((edu, i) => (
-            <View key={i} style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View key={i} style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between' }} wrap={false}>
               <View>
                 <Text style={{ fontWeight: 'bold' }}>{edu.degree}</Text>
                 <Text style={{ fontSize: 9, color: '#475569' }}>{edu.institution}</Text>
@@ -166,7 +182,7 @@ export const ModernTemplatePDF = ({ content }: CvTemplateProps) => (
           ))}
         </View>
 
-        <View style={pdfStyles.section}>
+        <View style={pdfStyles.section} wrap={false}>
           <View style={pdfStyles.sectionHeader}>
             <Text style={pdfStyles.sectionTitle}>Habilidades</Text>
             <View style={pdfStyles.sectionDivider} />
@@ -204,14 +220,29 @@ export const ModernTemplate = ({ content }: CvTemplateProps) => {
       <div className="flex w-full flex-col">
         <div className="h-2 w-full bg-blue-600" />
         <div className="flex flex-col p-[40pt]">
-          {/* Header */}
-          <header className="mb-8">
-            <h1 className="text-4xl font-bold tracking-tighter text-blue-800 uppercase">Perfil Profesional</h1>
-            <div className="mt-4 flex">
-              <div className="mr-3 w-1 bg-blue-600" />
-              <p className="flex-1 text-[9pt] text-slate-600">{content.summary}</p>
-            </div>
-          </header>
+          {/* Personal Info Header */}
+          {content.personalInfo && (
+            <header className="mb-8">
+              {content.personalInfo.fullName && (
+                <h1 className="text-4xl font-bold tracking-tighter text-blue-800 uppercase">{content.personalInfo.fullName}</h1>
+              )}
+              {content.personalInfo.jobTitle && (
+                <p className="mt-1 text-sm text-slate-500">{content.personalInfo.jobTitle}</p>
+              )}
+              <div className="mt-2 flex flex-wrap gap-x-3 text-[8pt]">
+                {content.personalInfo.email && <span className="text-blue-600">{content.personalInfo.email}</span>}
+                {content.personalInfo.phone && <span className="text-slate-500">• {content.personalInfo.phone}</span>}
+                {content.personalInfo.city && <span className="text-slate-500">• {content.personalInfo.city}</span>}
+                {content.personalInfo.linkedin && <span className="text-blue-600">• {content.personalInfo.linkedin}</span>}
+              </div>
+            </header>
+          )}
+
+          {/* Summary */}
+          <div className="mt-4 mb-8 flex">
+            <div className="mr-3 w-1 bg-blue-600" />
+            <p className="flex-1 text-[9pt] text-slate-600">{content.summary}</p>
+          </div>
 
           {/* Experience */}
           <section className="mb-8">

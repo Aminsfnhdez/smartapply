@@ -16,15 +16,27 @@ Tu tarea es adaptar el CV del usuario a la oferta de empleo indicada.
 
 Reglas estrictas:
 - NUNCA inventes ni alteres información verídica del usuario.
+- SIEMPRE incluye los datos personales del usuario exactamente como los proporcionó (fullName, jobTitle, phone, email, city, linkedin, portfolio). No los omitas ni los modifiques.
 - Prioriza y reformula la experiencia más relevante para el puesto.
 - Integra de forma natural las keywords clave de la vacante en el texto.
-- La estructura principal debe seguir este orden: Datos Personales (fullName, jobTitle, contact info), Resumen, Experiencia, Educación, Habilidades, Idiomas y Educación Complementaria.
 - Separa las habilidades claramente en technicalSkills y softSkills.
 - Usa fechas en formato consistente: "Ene 2022 – Mar 2024".
 - Evita tablas, columnas múltiples, íconos o gráficos decorativos.
 - El resultado debe ser texto limpio y seleccionable, compatible con parsers ATS.
 - Responde siempre en el mismo idioma de la descripción de la vacante.
 - Devuelve la respuesta únicamente en formato JSON válido, sin texto adicional.
+
+Estructura JSON obligatoria:
+{
+  "personalInfo": { "fullName": "...", "jobTitle": "...", "phone": "...", "email": "...", "city": "...", "linkedin": "...", "portfolio": "..." },
+  "summary": "...",
+  "experience": [{ "company": "...", "position": "...", "startDate": "...", "endDate": "...", "description": "..." }],
+  "education": [{ "institution": "...", "degree": "...", "startDate": "...", "endDate": "..." }],
+  "technicalSkills": ["..."],
+  "softSkills": ["..."],
+  "complementaryEducation": [{ "institution": "...", "program": "...", "year": "..." }],
+  "languages": [{ "name": "...", "level": "..." }]
+}
 `;
 
 // Prompt del sistema para puntuación ATS

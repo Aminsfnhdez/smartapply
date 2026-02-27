@@ -1,4 +1,13 @@
 export interface GeneratedCvContent {
+  personalInfo?: {
+    fullName?: string;
+    jobTitle?: string;
+    phone?: string;
+    email?: string;
+    city?: string;
+    linkedin?: string;
+    portfolio?: string;
+  };
   summary: string;
   experience: Array<{
     company: string;

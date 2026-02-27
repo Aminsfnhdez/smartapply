@@ -89,16 +89,33 @@ const pdfStyles = StyleSheet.create({
 
 export const MinimalistTemplatePDF = ({ content }: CvTemplateProps) => (
   <Document>
-    <Page size="A4" style={pdfStyles.page}>
-      <View style={pdfStyles.header}>
-        <Text style={pdfStyles.headerTitle}>Curriculum Vitae</Text>
+    <Page size="A4" style={pdfStyles.page} wrap>
+      {/* Personal Info Header */}
+      {content.personalInfo && (
+        <View style={pdfStyles.header}>
+          {content.personalInfo.fullName && (
+            <Text style={pdfStyles.headerTitle}>{content.personalInfo.fullName}</Text>
+          )}
+          {content.personalInfo.jobTitle && (
+            <Text style={{ fontSize: 9, fontWeight: 'light', color: '#6b7280', marginBottom: 6 }}>{content.personalInfo.jobTitle}</Text>
+          )}
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+            {content.personalInfo.email && <Text style={{ fontSize: 7, color: '#9ca3af' }}>{content.personalInfo.email}</Text>}
+            {content.personalInfo.phone && <Text style={{ fontSize: 7, color: '#9ca3af' }}>• {content.personalInfo.phone}</Text>}
+            {content.personalInfo.city && <Text style={{ fontSize: 7, color: '#9ca3af' }}>• {content.personalInfo.city}</Text>}
+          </View>
+        </View>
+      )}
+
+      {/* Summary */}
+      <View style={{ marginBottom: 35 }}>
         <Text style={pdfStyles.summary}>{content.summary}</Text>
       </View>
 
       <View style={pdfStyles.section}>
         <Text style={pdfStyles.sectionLabel}>Experiencia</Text>
         {content.experience.map((exp, i) => (
-          <View key={i} style={pdfStyles.experienceItem}>
+          <View key={i} style={pdfStyles.experienceItem} wrap={false}>
             <View style={pdfStyles.itemHeader}>
               <Text style={pdfStyles.itemTitle}>{exp.position}</Text>
               <Text style={pdfStyles.itemDate}>{exp.startDate} / {exp.endDate}</Text>
@@ -112,7 +129,7 @@ export const MinimalistTemplatePDF = ({ content }: CvTemplateProps) => (
       <View style={pdfStyles.section}>
         <Text style={pdfStyles.sectionLabel}>Educación</Text>
         {content.education.map((edu, i) => (
-          <View key={i} style={{ marginBottom: 15 }}>
+          <View key={i} style={{ marginBottom: 15 }} wrap={false}>
             <View style={pdfStyles.itemHeader}>
               <Text style={pdfStyles.itemTitle}>{edu.degree}</Text>
               <Text style={pdfStyles.itemDate}>{edu.startDate} / {edu.endDate}</Text>
@@ -122,7 +139,7 @@ export const MinimalistTemplatePDF = ({ content }: CvTemplateProps) => (
         ))}
       </View>
 
-      <View style={pdfStyles.infoContainer}>
+      <View style={pdfStyles.infoContainer} wrap={false}>
         <View style={pdfStyles.infoCol}>
           <Text style={pdfStyles.sectionLabel}>Habilidades</Text>
           <View style={pdfStyles.skillList}>
@@ -153,11 +170,25 @@ export const MinimalistTemplatePDF = ({ content }: CvTemplateProps) => (
 export const MinimalistTemplate = ({ content }: CvTemplateProps) => {
   return (
     <div className="mx-auto bg-white p-[50pt] text-[9pt] leading-loose text-gray-700 shadow-sm" style={{ width: '210mm', minHeight: '297mm' }}>
-      {/* Header */}
-      <header className="mb-12">
-        <h1 className="text-2xl font-light tracking-[0.2em] text-gray-900 uppercase">Curriculum Vitae</h1>
-        <p className="mt-4 text-[9pt] font-light text-gray-500 text-justify">{content.summary}</p>
-      </header>
+      {/* Personal Info Header */}
+      {content.personalInfo && (
+        <header className="mb-12">
+          {content.personalInfo.fullName && (
+            <h1 className="text-2xl font-light tracking-[0.2em] text-gray-900 uppercase">{content.personalInfo.fullName}</h1>
+          )}
+          {content.personalInfo.jobTitle && (
+            <p className="mt-1 text-[9pt] font-light text-gray-500">{content.personalInfo.jobTitle}</p>
+          )}
+          <div className="mt-2 flex flex-wrap gap-x-4 text-[7pt] text-gray-400">
+            {content.personalInfo.email && <span>{content.personalInfo.email}</span>}
+            {content.personalInfo.phone && <span>• {content.personalInfo.phone}</span>}
+            {content.personalInfo.city && <span>• {content.personalInfo.city}</span>}
+          </div>
+        </header>
+      )}
+
+      {/* Summary */}
+      <p className="mb-12 text-[9pt] font-light text-gray-500 text-justify">{content.summary}</p>
 
       {/* Experience */}
       <section className="mb-10">

@@ -75,10 +75,29 @@ const pdfStyles = StyleSheet.create({
 
 export const ClassicTemplatePDF = ({ content }: CvTemplateProps) => (
   <Document>
-    <Page size="A4" style={pdfStyles.page}>
-      {/* Header */}
-      <View style={pdfStyles.header}>
-        <Text style={pdfStyles.title}>RESUMEN PROFESIONAL</Text>
+    <Page size="A4" style={pdfStyles.page} wrap>
+      {/* Personal Info Header */}
+      {content.personalInfo && (
+        <View style={pdfStyles.header}>
+          {content.personalInfo.fullName && (
+            <Text style={pdfStyles.title}>{content.personalInfo.fullName}</Text>
+          )}
+          {content.personalInfo.jobTitle && (
+            <Text style={{ fontSize: 12, color: '#374151', marginTop: 2 }}>{content.personalInfo.jobTitle}</Text>
+          )}
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
+            {content.personalInfo.email && <Text style={{ fontSize: 9, color: '#4b5563' }}>{content.personalInfo.email}</Text>}
+            {content.personalInfo.phone && <Text style={{ fontSize: 9, color: '#4b5563' }}>• {content.personalInfo.phone}</Text>}
+            {content.personalInfo.city && <Text style={{ fontSize: 9, color: '#4b5563' }}>• {content.personalInfo.city}</Text>}
+            {content.personalInfo.linkedin && <Text style={{ fontSize: 9, color: '#4b5563' }}>• {content.personalInfo.linkedin}</Text>}
+            {content.personalInfo.portfolio && <Text style={{ fontSize: 9, color: '#4b5563' }}>• {content.personalInfo.portfolio}</Text>}
+          </View>
+        </View>
+      )}
+
+      {/* Summary */}
+      <View style={pdfStyles.section} wrap={false}>
+        <Text style={pdfStyles.sectionTitle}>Resumen Profesional</Text>
         <Text style={pdfStyles.summary}>{content.summary}</Text>
       </View>
 
@@ -86,7 +105,7 @@ export const ClassicTemplatePDF = ({ content }: CvTemplateProps) => (
       <View style={pdfStyles.section}>
         <Text style={pdfStyles.sectionTitle}>Experiencia Profesional</Text>
         {content.experience.map((exp, i) => (
-          <View key={i} style={{ marginBottom: 12 }}>
+          <View key={i} style={{ marginBottom: 12 }} wrap={false}>
             <View style={pdfStyles.entryHeader}>
               <Text style={pdfStyles.bold}>{exp.position}</Text>
               <Text>{exp.startDate} - {exp.endDate}</Text>
@@ -101,7 +120,7 @@ export const ClassicTemplatePDF = ({ content }: CvTemplateProps) => (
       <View style={pdfStyles.section}>
         <Text style={pdfStyles.sectionTitle}>Educación</Text>
         {content.education.map((edu, i) => (
-          <View key={i} style={{ marginBottom: 8 }}>
+          <View key={i} style={{ marginBottom: 8 }} wrap={false}>
             <View style={pdfStyles.entryHeader}>
               <Text style={pdfStyles.bold}>{edu.degree}</Text>
               <Text>{edu.startDate} - {edu.endDate}</Text>
@@ -112,7 +131,7 @@ export const ClassicTemplatePDF = ({ content }: CvTemplateProps) => (
       </View>
 
       {/* Skills */}
-      <View style={pdfStyles.section}>
+      <View style={pdfStyles.section} wrap={false}>
         <Text style={pdfStyles.sectionTitle}>Habilidades</Text>
         <View style={pdfStyles.skillList}>
           {content.technicalSkills.map((skill, i) => (
@@ -125,7 +144,7 @@ export const ClassicTemplatePDF = ({ content }: CvTemplateProps) => (
       </View>
 
       {/* Languages */}
-      <View style={pdfStyles.section}>
+      <View style={pdfStyles.section} wrap={false}>
         <Text style={pdfStyles.sectionTitle}>Idiomas</Text>
         <View style={pdfStyles.languageGrid}>
           {content.languages.map((lang, i) => (
@@ -145,11 +164,30 @@ export const ClassicTemplatePDF = ({ content }: CvTemplateProps) => (
 export const ClassicTemplate = ({ content }: CvTemplateProps) => {
   return (
     <div className="mx-auto bg-white p-[40pt] text-[10pt] leading-relaxed text-gray-900 shadow-sm" style={{ width: '210mm', minHeight: '297mm' }}>
-      {/* Header */}
-      <header className="mb-8 border-b-2 border-black pb-4">
-        <h1 className="text-3xl font-bold uppercase tracking-tight">RESUMEN PROFESIONAL</h1>
-        <p className="mt-2 text-[9pt] text-gray-600">{content.summary}</p>
-      </header>
+      {/* Personal Info Header */}
+      {content.personalInfo && (
+        <header className="mb-8 border-b-2 border-black pb-4">
+          {content.personalInfo.fullName && (
+            <h1 className="text-3xl font-bold uppercase tracking-tight">{content.personalInfo.fullName}</h1>
+          )}
+          {content.personalInfo.jobTitle && (
+            <p className="mt-1 text-sm text-gray-600">{content.personalInfo.jobTitle}</p>
+          )}
+          <div className="mt-2 flex flex-wrap gap-x-3 text-[9pt] text-gray-500">
+            {content.personalInfo.email && <span>{content.personalInfo.email}</span>}
+            {content.personalInfo.phone && <span>• {content.personalInfo.phone}</span>}
+            {content.personalInfo.city && <span>• {content.personalInfo.city}</span>}
+            {content.personalInfo.linkedin && <span>• {content.personalInfo.linkedin}</span>}
+            {content.personalInfo.portfolio && <span>• {content.personalInfo.portfolio}</span>}
+          </div>
+        </header>
+      )}
+
+      {/* Summary */}
+      <section className="mb-8">
+        <h2 className="mb-4 border-b border-gray-300 pb-1 text-sm font-bold uppercase tracking-wide">Resumen Profesional</h2>
+        <p className="text-[9pt] text-gray-600">{content.summary}</p>
+      </section>
 
       {/* Experience */}
       <section className="mb-8">

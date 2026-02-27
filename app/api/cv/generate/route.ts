@@ -59,16 +59,26 @@ export const POST = async (req: NextRequest) => {
     }
 
     // 5. Llamar a Claude API
+    const profileData = profile as Record<string, unknown>;
     const userMessage = `
       Descripción de la vacante:
       ${jobDescription}
 
-      Perfil del usuario:
+      Datos personales del usuario (incluir SIEMPRE en personalInfo):
+      - Nombre completo: ${profileData.fullName ?? 'No proporcionado'}
+      - Cargo/Título profesional: ${profileData.jobTitle ?? 'No proporcionado'}
+      - Teléfono: ${profileData.phone ?? 'No proporcionado'}
+      - Email: ${profileData.email ?? 'No proporcionado'}
+      - Ciudad: ${profileData.city ?? 'No proporcionado'}
+      - LinkedIn: ${profileData.linkedin ?? ''}
+      - Portfolio: ${profileData.portfolio ?? ''}
+
+      Perfil profesional completo del usuario:
       ${JSON.stringify(profile)}
 
       Idioma de respuesta: ${language === 'es' ? 'Español' : 'Inglés'}
 
-      Devuelve el CV adaptado en formato JSON siguiendo exactamente la estructura GeneratedCvContent.
+      Devuelve el CV adaptado en formato JSON siguiendo exactamente la estructura indicada en el system prompt. Incluye personalInfo como primer campo.
     `;
 
     const result = await callClaude({
