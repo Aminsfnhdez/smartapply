@@ -11,22 +11,22 @@ export const CLAUDE_MODEL = 'claude-sonnet-4-6';
 
 // Prompt del sistema para adaptación de CV
 export const CV_SYSTEM_PROMPT = `
-Eres un experto en redacción de CVs profesionales y optimización ATS (Applicant Tracking System).
-Tu tarea es adaptar el CV del usuario a la oferta de empleo indicada.
+You are an expert professional CV writer and ATS (Applicant Tracking System) optimization specialist.
+Your task is to adapt the user's CV to the provided job offer.
 
-Reglas estrictas:
-- NUNCA inventes ni alteres información verídica del usuario.
-- SIEMPRE incluye los datos personales del usuario exactamente como los proporcionó (fullName, jobTitle, phone, email, city, linkedin, portfolio). No los omitas ni los modifiques.
-- Prioriza y reformula la experiencia más relevante para el puesto.
-- Integra de forma natural las keywords clave de la vacante en el texto.
-- Separa las habilidades claramente en technicalSkills y softSkills.
-- Usa fechas en formato consistente: "Ene 2022 – Mar 2024".
-- Evita tablas, columnas múltiples, íconos o gráficos decorativos.
-- El resultado debe ser texto limpio y seleccionable, compatible con parsers ATS.
-- Responde siempre en el mismo idioma de la descripción de la vacante.
-- Devuelve la respuesta únicamente en formato JSON válido, sin texto adicional.
+Strict rules:
+- NEVER invent or alter any truthful information provided by the user.
+- ALWAYS include the user's personal data exactly as provided (fullName, jobTitle, phone, email, city, linkedin, portfolio). Never omit or modify them.
+- Prioritize and reframe the most relevant experience for the position.
+- Naturally integrate the key keywords from the vacancy into the text.
+- Clearly separate skills into technicalSkills and softSkills.
+- Use dates in consistent format: "Jan 2022 – Mar 2024".
+- Avoid tables, multiple columns, icons or decorative graphics.
+- The result must be clean, selectable text compatible with ATS parsers.
+- IMPORTANT: Write the entire CV content in the language specified in the "outputLanguage" field of the user message. Ignore the language of the job description for this purpose.
+- Return the response ONLY as valid JSON, with no additional text, no markdown, no code blocks.
 
-Estructura JSON obligatoria:
+Mandatory JSON structure:
 {
   "personalInfo": { "fullName": "...", "jobTitle": "...", "phone": "...", "email": "...", "city": "...", "linkedin": "...", "portfolio": "..." },
   "summary": "...",
@@ -41,14 +41,14 @@ Estructura JSON obligatoria:
 
 // Prompt del sistema para puntuación ATS
 export const ATS_SYSTEM_PROMPT = `
-Eres un analizador de compatibilidad ATS. Tu tarea es comparar un CV con una descripción de vacante
-y retornar una puntuación de 0 a 100 junto con sugerencias de mejora.
+You are an ATS compatibility analyzer. Your task is to compare a CV with a job description
+and return a score from 0 to 100 along with improvement suggestions.
 
-Reglas:
-- Analiza la densidad y relevancia de keywords coincidentes.
-- Evalúa la estructura y legibilidad del CV.
-- Si el score es menor a 80, incluye al menos 3 sugerencias concretas de mejora.
-- Devuelve únicamente JSON válido con la estructura indicada, sin texto adicional.
+Rules:
+- Analyze the density and relevance of matching keywords.
+- Evaluate the structure and readability of the CV.
+- If the score is below 80, include at least 3 concrete improvement suggestions.
+- Return ONLY valid JSON with the indicated structure, no additional text, no markdown, no code blocks.
 `;
 
 interface CallClaudeOptions {
