@@ -17,23 +17,29 @@ export const HistoryClient = ({ initialCvs }: HistoryClientProps) => {
   const t = useTranslations("history");
 
   const handleDelete = async (id: string) => {
-    if (!confirm(t("confirmDelete"))) return;
+    toast(t("confirmDelete"), {
+      action: {
+        label: t("confirmDeleteAction"),
+        onClick: async () => {
+          try {
+            const res = await fetch(`/api/cv/${id}`, {
+              method: "DELETE",
+            });
 
-    try {
-      const res = await fetch(`/api/cv/${id}`, {
-        method: "DELETE",
-      });
-
-      if (res.ok) {
-        toast.success(t("success_delete"));
-        setCvs(cvs.filter((cv) => cv.id !== id));
-      } else {
-        toast.error(t("deleteError"));
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error(t("deleteError"));
-    }
+            if (res.ok) {
+              toast.success(t("success_delete"));
+              setCvs(cvs.filter((cv) => cv.id !== id));
+            } else {
+              toast.error(t("deleteError"));
+            }
+          } catch (error) {
+            console.error(error);
+            toast.error(t("deleteError"));
+          }
+        },
+      },
+      duration: 5000,
+    });
   };
 
   if (cvs.length === 0) {

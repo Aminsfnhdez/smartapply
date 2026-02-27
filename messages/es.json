@@ -113,6 +113,7 @@
     "generateFirst": "Generar mi primer CV",
     "delete": "Eliminar CV",
     "confirmDelete": "¿Estás seguro de que deseas eliminar este CV? Esta acción es irreversible.",
+    "confirmDeleteAction": "Sí, eliminar",
     "deleteError": "Error al eliminar el CV.",
     "success_delete": "CV eliminado correctamente.",
     "downloadError": "Error al generar el archivo de descarga. Intenta nuevamente.",
@@ -129,6 +130,7 @@
     "noRecentCvs": "Aún no has generado CVs adaptados. Realiza tu primera adaptación para verla aquí.",
     "generateFirst": "Comenzar mi primer CV",
     "confirmDelete": "¿Estás seguro de que deseas eliminar este CV? Esta acción no se puede deshacer.",
+    "confirmDeleteAction": "Sí, eliminar",
     "deleteError": "No se pudo eliminar el CV. Intente nuevamente.",
     "success_delete": "CV eliminado con éxito.",
     "navigation": {

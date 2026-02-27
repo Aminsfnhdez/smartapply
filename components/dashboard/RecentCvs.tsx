@@ -26,32 +26,33 @@ export const RecentCvs = ({ initialCvs }: RecentCvsProps) => {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const handleDelete = async (id: string) => {
-    // Mantengo confirm por ahora ya que el usuario pidió específicamente reemplazar alert() y notificaciones inline, 
-    // pero confirm() es una acción de interrupción. Si desea reemplazarlo por un diálogo custom sería parte de otra mejora.
-    // Sin embargo, por consistencia usaré toast para el feedback.
-    if (!confirm(t('confirmDelete'))) return;
+    toast(t('confirmDelete'), {
+      action: {
+        label: t('confirmDeleteAction'),
+        onClick: async () => {
+          setIsDeleting(id);
+          try {
+            const res = await fetch(`/api/cv/${id}`, {
+              method: 'DELETE',
+            });
 
-    setIsDeleting(id);
-    try {
-      const res = await fetch(`/api/cv/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (res.ok) {
-        toast.success(t('success_delete'));
-        // Optimistic update: remove from local state
-        setCvs(prev => prev.filter(cv => cv.id !== id));
-        // Refresh server components to update stats (Total, Average Score)
-        router.refresh();
-      } else {
-        toast.error(t('deleteError'));
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error(t('deleteError'));
-    } finally {
-      setIsDeleting(null);
-    }
+            if (res.ok) {
+              toast.success(t('success_delete'));
+              setCvs(prev => prev.filter(cv => cv.id !== id));
+              router.refresh();
+            } else {
+              toast.error(t('deleteError'));
+            }
+          } catch (error) {
+            console.error(error);
+            toast.error(t('deleteError'));
+          } finally {
+            setIsDeleting(null);
+          }
+        },
+      },
+      duration: 5000,
+    });
   };
 
   if (cvs.length === 0) {
