@@ -1,29 +1,10 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import type { GeneratedCvContent } from '@/types/cv';
-
-// Carga dinámica de plantillas para evitar errores de SSR con @react-pdf/renderer
-const ClassicTemplate = dynamic(() => import('../cv-templates/ClassicTemplate').then(m => m.ClassicTemplate), { 
-  ssr: false,
-  loading: () => <div className="h-96 w-full animate-pulse rounded-xl bg-gray-100" />
-});
-
-const ModernTemplate = dynamic(() => import('../cv-templates/ModernTemplate').then(m => m.ModernTemplate), { 
-  ssr: false,
-  loading: () => <div className="h-96 w-full animate-pulse rounded-xl bg-gray-100" />
-});
-
-const MinimalistTemplate = dynamic(() => import('../cv-templates/MinimalistTemplate').then(m => m.MinimalistTemplate), { 
-  ssr: false,
-  loading: () => <div className="h-96 w-full animate-pulse rounded-xl bg-gray-100" />
-});
-
-// Importamos PDFViewer dinámicamente también
-const PDFViewer = dynamic(() => import('@react-pdf/renderer').then(m => m.PDFViewer), {
-  ssr: false,
-});
+import { ClassicTemplate } from '../cv-templates/ClassicTemplate';
+import { ModernTemplate } from '../cv-templates/ModernTemplate';
+import { MinimalistTemplate } from '../cv-templates/MinimalistTemplate';
 
 interface CvPreviewProps {
   content: GeneratedCvContent;
@@ -34,6 +15,18 @@ interface CvPreviewProps {
 export const CvPreview = ({ content, template, language }: CvPreviewProps) => {
   const t = useTranslations('generate');
 
+  const renderTemplate = () => {
+    switch (template) {
+      case 'modern':
+        return <ModernTemplate content={content} language={language} />;
+      case 'minimalist':
+        return <MinimalistTemplate content={content} language={language} />;
+      case 'classic':
+      default:
+        return <ClassicTemplate content={content} language={language} />;
+    }
+  };
+
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex items-center justify-between">
@@ -43,16 +36,13 @@ export const CvPreview = ({ content, template, language }: CvPreviewProps) => {
         </span>
       </div>
       
-      <div className="aspect-[1/1.414] w-full overflow-hidden rounded-2xl border bg-white shadow-inner">
-        <PDFViewer width="100%" height="100%" style={{ border: 'none' }} showToolbar={false}>
-          {template === 'classic' ? (
-            <ClassicTemplate content={content} language={language} />
-          ) : template === 'modern' ? (
-            <ModernTemplate content={content} language={language} />
-          ) : (
-            <MinimalistTemplate content={content} language={language} />
-          )}
-        </PDFViewer>
+      {/* Contenedor con scroll y escala para previsualización tipo página A4 */}
+      <div className="relative w-full overflow-hidden rounded-2xl border bg-gray-100 shadow-inner">
+        <div className="flex justify-center p-4 sm:p-8">
+          <div className="origin-top scale-[0.5] sm:scale-[0.7] md:scale-[0.85] lg:scale-[0.6] xl:scale-[0.75] transition-transform duration-300">
+            {renderTemplate()}
+          </div>
+        </div>
       </div>
       
       <p className="text-center text-xs text-gray-500">

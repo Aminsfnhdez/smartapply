@@ -13,7 +13,13 @@ export interface GeneratedCvContent {
     startDate: string;
     endDate: string;
   }>;
-  skills: string[];
+  technicalSkills: string[];
+  softSkills: string[];
+  complementaryEducation?: Array<{
+    institution: string;
+    program: string;
+    year: string;
+  }>;
   languages: Array<{
     name: string;
     level: string;

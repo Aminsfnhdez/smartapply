@@ -1,8 +1,8 @@
 import { renderToBuffer } from '@react-pdf/renderer';
 import React from 'react';
-import { ClassicTemplate } from '@/components/cv-templates/ClassicTemplate';
-import { ModernTemplate } from '@/components/cv-templates/ModernTemplate';
-import { MinimalistTemplate } from '@/components/cv-templates/MinimalistTemplate';
+import { ClassicTemplatePDF } from '@/components/cv-templates/ClassicTemplate';
+import { ModernTemplatePDF } from '@/components/cv-templates/ModernTemplate';
+import { MinimalistTemplatePDF } from '@/components/cv-templates/MinimalistTemplate';
 import type { GeneratedCvContent } from '@/types/cv';
 
 export type TemplateType = 'classic' | 'modern' | 'minimalist';
@@ -12,14 +12,14 @@ export const generatePdfBuffer = async (content: GeneratedCvContent, template: T
 
   switch (template) {
     case 'modern':
-      TemplateComponent = ModernTemplate;
+      TemplateComponent = ModernTemplatePDF;
       break;
     case 'minimalist':
-      TemplateComponent = MinimalistTemplate;
+      TemplateComponent = MinimalistTemplatePDF;
       break;
     case 'classic':
     default:
-      TemplateComponent = ClassicTemplate;
+      TemplateComponent = ClassicTemplatePDF;
       break;
   }
 

@@ -1,7 +1,10 @@
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import type { CvTemplateProps } from "@/types/cv-template";
 
-const styles = StyleSheet.create({
+/**
+ * VERSION PDF (@react-pdf/renderer)
+ */
+const pdfStyles = StyleSheet.create({
   page: {
     padding: 50,
     fontFamily: 'Helvetica',
@@ -84,52 +87,55 @@ const styles = StyleSheet.create({
   }
 });
 
-export const MinimalistTemplate = ({ content }: CvTemplateProps) => (
+export const MinimalistTemplatePDF = ({ content }: CvTemplateProps) => (
   <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Curriculum Vitae</Text>
-        <Text style={styles.summary}>{content.summary}</Text>
+    <Page size="A4" style={pdfStyles.page}>
+      <View style={pdfStyles.header}>
+        <Text style={pdfStyles.headerTitle}>Curriculum Vitae</Text>
+        <Text style={pdfStyles.summary}>{content.summary}</Text>
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionLabel}>Experiencia</Text>
+      <View style={pdfStyles.section}>
+        <Text style={pdfStyles.sectionLabel}>Experiencia</Text>
         {content.experience.map((exp, i) => (
-          <View key={i} style={styles.experienceItem}>
-            <View style={styles.itemHeader}>
-              <Text style={styles.itemTitle}>{exp.position}</Text>
-              <Text style={styles.itemDate}>{exp.startDate} / {exp.endDate}</Text>
+          <View key={i} style={pdfStyles.experienceItem}>
+            <View style={pdfStyles.itemHeader}>
+              <Text style={pdfStyles.itemTitle}>{exp.position}</Text>
+              <Text style={pdfStyles.itemDate}>{exp.startDate} / {exp.endDate}</Text>
             </View>
-            <Text style={styles.itemCompany}>{exp.company}</Text>
-            <Text style={styles.itemDescription}>{exp.description}</Text>
+            <Text style={pdfStyles.itemCompany}>{exp.company}</Text>
+            <Text style={pdfStyles.itemDescription}>{exp.description}</Text>
           </View>
         ))}
       </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionLabel}>Educación</Text>
+      <View style={pdfStyles.section}>
+        <Text style={pdfStyles.sectionLabel}>Educación</Text>
         {content.education.map((edu, i) => (
           <View key={i} style={{ marginBottom: 15 }}>
-            <View style={styles.itemHeader}>
-              <Text style={styles.itemTitle}>{edu.degree}</Text>
-              <Text style={styles.itemDate}>{edu.startDate} / {edu.endDate}</Text>
+            <View style={pdfStyles.itemHeader}>
+              <Text style={pdfStyles.itemTitle}>{edu.degree}</Text>
+              <Text style={pdfStyles.itemDate}>{edu.startDate} / {edu.endDate}</Text>
             </View>
-            <Text style={styles.itemCompany}>{edu.institution}</Text>
+            <Text style={pdfStyles.itemCompany}>{edu.institution}</Text>
           </View>
         ))}
       </View>
 
-      <View style={styles.infoContainer}>
-        <View style={styles.infoCol}>
-          <Text style={styles.sectionLabel}>Habilidades</Text>
-          <View style={styles.skillList}>
-            {content.skills.map((skill, i) => (
-              <Text key={i} style={styles.skillItem}>• {skill}</Text>
+      <View style={pdfStyles.infoContainer}>
+        <View style={pdfStyles.infoCol}>
+          <Text style={pdfStyles.sectionLabel}>Habilidades</Text>
+          <View style={pdfStyles.skillList}>
+            {content.technicalSkills.map((skill, i) => (
+              <Text key={i} style={pdfStyles.skillItem}>• {skill}</Text>
+            ))}
+            {content.softSkills.map((skill, i) => (
+              <Text key={i} style={pdfStyles.skillItem}>• {skill}</Text>
             ))}
           </View>
         </View>
-        <View style={styles.infoCol}>
-          <Text style={styles.sectionLabel}>Idiomas</Text>
+        <View style={pdfStyles.infoCol}>
+          <Text style={pdfStyles.sectionLabel}>Idiomas</Text>
           {content.languages.map((lang, i) => (
             <Text key={i} style={{ marginBottom: 4 }}>
               <Text style={{ fontWeight: 'bold' }}>{lang.name}</Text> — {lang.level}
@@ -140,3 +146,75 @@ export const MinimalistTemplate = ({ content }: CvTemplateProps) => (
     </Page>
   </Document>
 );
+
+/**
+ * VERSION HTML (Tailwind para Preview)
+ */
+export const MinimalistTemplate = ({ content }: CvTemplateProps) => {
+  return (
+    <div className="mx-auto bg-white p-[50pt] text-[9pt] leading-loose text-gray-700 shadow-sm" style={{ width: '210mm', minHeight: '297mm' }}>
+      {/* Header */}
+      <header className="mb-12">
+        <h1 className="text-2xl font-light tracking-[0.2em] text-gray-900 uppercase">Curriculum Vitae</h1>
+        <p className="mt-4 text-[9pt] font-light text-gray-500 text-justify">{content.summary}</p>
+      </header>
+
+      {/* Experience */}
+      <section className="mb-10">
+        <h2 className="mb-6 text-[8pt] font-bold tracking-widest text-gray-400 uppercase">Experiencia</h2>
+        <div className="space-y-8">
+          {content.experience.map((exp, i) => (
+            <div key={i}>
+              <div className="mb-2 flex items-baseline justify-between border-b border-gray-100 pb-1">
+                <h3 className="text-[10pt] font-bold uppercase tracking-tight text-gray-800">{exp.position}</h3>
+                <span className="text-[7pt] text-gray-400 uppercase">{exp.startDate} / {exp.endDate || 'Presente'}</span>
+              </div>
+              <div className="mb-2 text-[8pt] font-medium text-gray-500 uppercase">{exp.company}</div>
+              <p className="text-[8pt] leading-relaxed text-gray-600">{exp.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Education */}
+      <section className="mb-10">
+        <h2 className="mb-6 text-[8pt] font-bold tracking-widest text-gray-400 uppercase">Educación</h2>
+        <div className="space-y-6">
+          {content.education.map((edu, i) => (
+            <div key={i}>
+              <div className="mb-2 flex items-baseline justify-between border-b border-gray-100 pb-1">
+                <h3 className="text-[10pt] font-bold uppercase tracking-tight text-gray-800">{edu.degree}</h3>
+                <span className="text-[7pt] text-gray-400 uppercase">{edu.startDate} / {edu.endDate || 'Presente'}</span>
+              </div>
+              <div className="text-[8pt] font-medium text-gray-500 uppercase">{edu.institution}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="flex gap-16">
+        {/* Skills */}
+        <div className="flex-1">
+          <h2 className="mb-6 text-[8pt] font-bold tracking-widest text-gray-400 uppercase">Habilidades</h2>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-[8pt]">
+            {[...content.technicalSkills, ...content.softSkills].map((skill, i) => (
+              <span key={i}>• {skill}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* Languages */}
+        <div className="flex-1">
+          <h2 className="mb-6 text-[8pt] font-bold tracking-widest text-gray-400 uppercase">Idiomas</h2>
+          <div className="space-y-2">
+            {content.languages.map((lang, i) => (
+              <div key={i} className="text-[8pt]">
+                <span className="font-bold text-gray-900">{lang.name}</span> — {lang.level}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
