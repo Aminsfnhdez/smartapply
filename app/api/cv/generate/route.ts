@@ -113,7 +113,7 @@ export const POST = async (req: NextRequest) => {
       const scoreResult = await callClaude({
         systemPrompt: ATS_SYSTEM_PROMPT,
         userMessage: scoreMessage,
-        maxTokens: 512,
+        maxTokens: 1024,
       });
       const parsedScore = JSON.parse(cleanJson(scoreResult)) as AtsScoreResponse;
       atsScore = parsedScore.score;

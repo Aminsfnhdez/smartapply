@@ -41,7 +41,7 @@ export const POST = async (req: NextRequest) => {
     const result = await callClaude({
       systemPrompt: ATS_SYSTEM_PROMPT,
       userMessage,
-      maxTokens: 512, // Respuesta corta para scoring
+      maxTokens: 1024, // Increased tokens to avoid truncating json
     });
 
     let atsResponse: AtsScoreResponse;

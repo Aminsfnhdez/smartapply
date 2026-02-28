@@ -20,9 +20,14 @@ const CvHistoryCard = ({ cv, onDelete }: CvHistoryCardProps) => {
   const t = useTranslations("history");
   const [isExporting, setIsExporting] = useState(false);
 
-  // Intentar extraer el cargo de la descripción o del contenido generado
+  const formatDate = (dateValue: Date | string) => {
+    const d = new Date(dateValue);
+    const pad = (n: number) => n.toString().padStart(2, "0");
+    return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  };
+
   const jobTitle = cv.generatedContent?.experience?.[0]?.position || "CV Personalizado";
-  const date = new Date(cv.createdAt).toLocaleDateString();
+  const date = formatDate(cv.createdAt);
 
   const handleDownload = async (template: 'classic' | 'modern' | 'minimalist') => {
     setIsExporting(true);

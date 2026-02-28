@@ -94,7 +94,7 @@ export const MinimalistTemplatePDF = ({ content }: CvTemplateProps) => (
       {content.personalInfo && (
         <View style={pdfStyles.header}>
           {content.personalInfo.fullName && (
-            <Text style={pdfStyles.headerTitle}>{content.personalInfo.fullName}</Text>
+            <Text style={{ ...pdfStyles.headerTitle, marginBottom: 6 }}>{content.personalInfo.fullName}</Text>
           )}
           {content.personalInfo.jobTitle && (
             <Text style={{ fontSize: 9, fontWeight: 'light', color: '#6b7280', marginBottom: 6 }}>{content.personalInfo.jobTitle}</Text>
@@ -174,7 +174,7 @@ export const MinimalistTemplate = ({ content }: CvTemplateProps) => {
       {content.personalInfo && (
         <header className="mb-12">
           {content.personalInfo.fullName && (
-            <h1 className="text-2xl font-light tracking-[0.2em] text-gray-900 uppercase">{content.personalInfo.fullName}</h1>
+            <h1 className="text-2xl font-light tracking-[0.2em] text-gray-900 uppercase mb-2">{content.personalInfo.fullName}</h1>
           )}
           {content.personalInfo.jobTitle && (
             <p className="mt-1 text-[9pt] font-light text-gray-500">{content.personalInfo.jobTitle}</p>

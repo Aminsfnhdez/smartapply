@@ -80,7 +80,7 @@ export const ClassicTemplatePDF = ({ content }: CvTemplateProps) => (
       {content.personalInfo && (
         <View style={pdfStyles.header}>
           {content.personalInfo.fullName && (
-            <Text style={pdfStyles.title}>{content.personalInfo.fullName}</Text>
+            <Text style={{ ...pdfStyles.title, marginBottom: 6 }}>{content.personalInfo.fullName}</Text>
           )}
           {content.personalInfo.jobTitle && (
             <Text style={{ fontSize: 12, color: '#374151', marginTop: 2 }}>{content.personalInfo.jobTitle}</Text>
@@ -168,7 +168,7 @@ export const ClassicTemplate = ({ content }: CvTemplateProps) => {
       {content.personalInfo && (
         <header className="mb-8 border-b-2 border-black pb-4">
           {content.personalInfo.fullName && (
-            <h1 className="text-3xl font-bold uppercase tracking-tight">{content.personalInfo.fullName}</h1>
+            <h1 className="text-3xl font-bold uppercase tracking-tight mb-2">{content.personalInfo.fullName}</h1>
           )}
           {content.personalInfo.jobTitle && (
             <p className="mt-1 text-sm text-gray-600">{content.personalInfo.jobTitle}</p>
