@@ -1,15 +1,46 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { env } from './env';
 
-// Cliente singleton
+/**
+ * Cliente singleton de la SDK de Anthropic.
+ *
+ * Inicializado con la API key validada desde `lib/env.ts`.
+ * Se usa exclusivamente desde el servidor — nunca en componentes cliente.
+ */
 export const anthropic = new Anthropic({
   apiKey: env.ANTHROPIC_API_KEY,
 });
 
-// Modelo a usar en todo el proyecto
+/**
+ * Modelo de Claude usado en todo el proyecto.
+ *
+ * Centralizado aquí para facilitar actualizaciones futuras de modelo
+ * sin tener que buscar referencias en múltiples archivos.
+ */
 export const CLAUDE_MODEL = 'claude-sonnet-4-6';
 
-// Prompt del sistema para adaptación de CV
+/**
+ * System prompt para la generación y adaptación de CVs.
+ *
+ * Instruye a Claude para actuar como especialista en redacción de CVs
+ * y optimización ATS. Reglas clave que aplica:
+ * - Nunca inventa ni altera información del usuario.
+ * - Siempre incluye los datos personales tal como fueron proporcionados.
+ * - Integra keywords de la vacante de forma natural en el texto.
+ * - Separa habilidades en `technicalSkills` y `softSkills`.
+ * - Usa fechas en formato consistente: "Jan 2022 – Mar 2024".
+ * - Produce texto seleccionable y compatible con parsers ATS.
+ * - Escribe el CV en el idioma indicado por el campo `outputLanguage`.
+ * - Devuelve ÚNICAMENTE JSON válido, sin markdown ni texto adicional.
+ *
+ * La estructura JSON retornada es:
+ * ```
+ * {
+ *   personalInfo, summary, experience, education,
+ *   technicalSkills, softSkills, complementaryEducation, languages
+ * }
+ * ```
+ */
 export const CV_SYSTEM_PROMPT = `
 You are an expert professional CV writer and ATS (Applicant Tracking System) optimization specialist.
 Your task is to adapt the user's CV to the provided job offer.
@@ -39,7 +70,15 @@ Mandatory JSON structure:
 }
 `;
 
-// Prompt del sistema para puntuación ATS
+/**
+ * System prompt para el análisis de compatibilidad ATS.
+ *
+ * Instruye a Claude para comparar un CV contra una descripción de vacante
+ * y retornar un score de 0 a 100 junto con keywords y sugerencias.
+ *
+ * Si el score es menor a 80, Claude debe incluir al menos 3 sugerencias
+ * concretas de mejora. Devuelve ÚNICAMENTE JSON válido.
+ */
 export const ATS_SYSTEM_PROMPT = `
 You are an ATS compatibility analyzer. Your task is to compare a CV with a job description
 and return a score from 0 to 100 along with improvement suggestions.
@@ -51,12 +90,34 @@ Rules:
 - Return ONLY valid JSON with the indicated structure, no additional text, no markdown, no code blocks.
 `;
 
+/**
+ * Opciones de configuración para una llamada a la Claude API.
+ */
 interface CallClaudeOptions {
+  /** System prompt que define el rol y las instrucciones de Claude. */
   systemPrompt: string;
+  /** Mensaje del usuario con los datos específicos de la solicitud. */
   userMessage: string;
+  /** Número máximo de tokens en la respuesta. Por defecto: 4096. */
   maxTokens?: number;
 }
 
+/**
+ * Realiza una llamada a la Claude API con reintentos automáticos.
+ *
+ * Implementa un mecanismo de reintento con backoff lineal (1s, 2s) para
+ * manejar errores transitorios de la API. Máximo 2 intentos.
+ *
+ * @param options - Configuración de la llamada (systemPrompt, userMessage, maxTokens).
+ * @returns El texto de la respuesta de Claude.
+ * @throws Error si la API falla en todos los intentos o retorna un tipo inesperado.
+ *
+ * @example
+ * const result = await callClaude({
+ *   systemPrompt: CV_SYSTEM_PROMPT,
+ *   userMessage: `Vacante: ${jobDescription}\nPerfil: ${JSON.stringify(profile)}`,
+ * });
+ */
 export const callClaude = async ({
   systemPrompt,
   userMessage,
@@ -93,8 +154,20 @@ export const callClaude = async ({
 };
 
 /**
- * Limpia la respuesta de Claude eliminando bloques de código markdown
- * para asegurar que JSON.parse() funcione correctamente.
+ * Limpia la respuesta de Claude eliminando bloques de código markdown.
+ *
+ * Claude ocasionalmente envuelve las respuestas JSON en bloques markdown
+ * (` ```json ... ``` `), lo que rompe `JSON.parse()`. Esta función elimina
+ * esos delimitadores antes de parsear.
+ *
+ * Debe aplicarse a TODA respuesta de Claude antes de llamar a `JSON.parse()`.
+ *
+ * @param raw - Texto crudo retornado por Claude.
+ * @returns Texto limpio listo para `JSON.parse()`.
+ *
+ * @example
+ * const result = await callClaude({ ... });
+ * const parsed = JSON.parse(cleanJson(result));
  */
 export const cleanJson = (raw: string): string => {
   return raw

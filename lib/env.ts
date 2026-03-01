@@ -1,5 +1,19 @@
 import { z } from 'zod';
 
+/**
+ * Esquema de validación de variables de entorno con Zod.
+ *
+ * Define los tipos, formatos y restricciones esperadas para cada variable.
+ * Se ejecuta en tiempo de arranque del servidor — si falta o es inválida
+ * cualquier variable, la aplicación lanza un error inmediatamente.
+ *
+ * Grupos:
+ * - Auth: credenciales de NextAuth y proveedores OAuth (Google, GitHub).
+ * - Base de datos: URLs de conexión para Prisma con Supabase.
+ * - Supabase: URL pública, clave anónima y service role key.
+ * - IA: API key de Anthropic (debe comenzar con 'sk-ant-').
+ * - App: URL pública de la aplicación y entorno de ejecución.
+ */
 const envSchema = z.object({
   // Auth
   NEXTAUTH_URL: z.string().url(),
@@ -26,6 +40,13 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
 });
 
+/**
+ * Snapshot de process.env mapeado explícitamente.
+ *
+ * Next.js requiere que las variables de entorno se referencien de forma
+ * estática (process.env.VAR_NAME) para que el bundler las incluya
+ * correctamente. Este objeto centraliza ese acceso.
+ */
 const processEnv = {
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
@@ -51,4 +72,14 @@ if (!parsed.success) {
   throw new Error('La aplicación no puede iniciar: variables de entorno incorrectas.');
 }
 
+/**
+ * Objeto tipado y validado con todas las variables de entorno del proyecto.
+ *
+ * Usar siempre `env.VAR_NAME` en lugar de `process.env.VAR_NAME` para
+ * garantizar que los valores estén validados y TypeScript conozca su tipo.
+ *
+ * @example
+ * import { env } from '@/lib/env';
+ * const apiKey = env.ANTHROPIC_API_KEY;
+ */
 export const env = parsed.data;
