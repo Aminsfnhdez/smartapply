@@ -5,7 +5,22 @@ import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * GET /api/cv/[id]
- * Obtener detalles de un CV específico
+ *
+ * Retorna el detalle completo de un CV específico del usuario autenticado.
+ *
+ * Verifica que el CV exista y pertenezca al usuario de la sesión activa
+ * usando el filtro combinado `{ id, userId }`, evitando que un usuario
+ * acceda a CVs de otros usuarios aunque conozca el ID.
+ *
+ * @param params.id - ID del CV a consultar (cuid).
+ * @returns 200 con el objeto CV completo de Prisma.
+ * @returns 401 si el usuario no está autenticado.
+ * @returns 404 si el CV no existe o no pertenece al usuario.
+ * @returns 500 en caso de error inesperado de base de datos.
+ *
+ * @example
+ * const res = await fetch('/api/cv/clxyz123');
+ * const cv = await res.json();
  */
 export const GET = async (_req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -33,7 +48,29 @@ export const GET = async (_req: NextRequest, { params }: { params: Promise<{ id:
 
 /**
  * DELETE /api/cv/[id]
- * Eliminar un CV y sus archivos asociados en Storage
+ *
+ * Elimina un CV del usuario autenticado y sus archivos PDF asociados en Storage.
+ *
+ * Flujo:
+ * 1. Verifica sesión activa.
+ * 2. Busca el CV en la DB verificando que pertenezca al usuario (previene IDOR).
+ * 3. Elimina el registro de la DB con `prisma.cV.delete`.
+ * 4. Intenta eliminar los archivos PDF del bucket `cvs` en Supabase Storage.
+ *    Lista los archivos de la carpeta del usuario que coincidan con el ID del CV
+ *    y los elimina. Este paso es no-bloqueante: si falla (ej. el PDF nunca
+ *    fue generado), se registra una advertencia pero la respuesta sigue siendo 200.
+ *
+ * La eliminación en Storage es best-effort para evitar que errores de limpieza
+ * de archivos bloqueen la eliminación del registro principal en la DB.
+ *
+ * @param params.id - ID del CV a eliminar (cuid).
+ * @returns 200 con `{ success: true }` si el CV fue eliminado correctamente.
+ * @returns 401 si el usuario no está autenticado.
+ * @returns 404 si el CV no existe o no pertenece al usuario.
+ * @returns 500 en caso de error inesperado de base de datos.
+ *
+ * @example
+ * await fetch('/api/cv/clxyz123', { method: 'DELETE' });
  */
 export const DELETE = async (_req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -57,11 +94,10 @@ export const DELETE = async (_req: NextRequest, { params }: { params: Promise<{ 
       where: { id },
     });
 
-    // 3. Intentar eliminar archivos en Supabase Storage (opcional, no bloqueante)
+    // 3. Intentar eliminar archivos en Supabase Storage (no-bloqueante)
     try {
       if (!session.user?.id) throw new Error('Usuario no autenticado');
-      
-      // Listamos los archivos que empiezan con el ID del CV para ese usuario
+
       const { data: files } = await supabaseAdmin.storage
         .from('cvs')
         .list(session.user.id, { search: cv.id });

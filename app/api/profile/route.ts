@@ -4,6 +4,22 @@ import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
+/**
+ * Esquema de validación Zod para el cuerpo del PUT /api/profile.
+ *
+ * Valida y tipifica todos los campos del perfil profesional del usuario:
+ * - Datos personales: fullName, jobTitle, phone, email, city, linkedin, portfolio.
+ * - Resumen profesional: summary (máx. 2000 caracteres).
+ * - Experiencia laboral: array de objetos con company, position, fechas, isCurrent y description.
+ * - Educación: array con institution, degree, fechas, isOngoing, city y status.
+ * - Habilidades: technicalSkills y softSkills como arrays de strings.
+ * - Idiomas: array de objetos { name, level }.
+ * - Certificaciones: array de strings.
+ * - Formación complementaria: array de objetos { institution, program, year } (opcional).
+ *
+ * Los campos de datos personales son opcionales y aceptan null para permitir
+ * guardado parcial del perfil.
+ */
 const profileSchema = z.object({
   fullName: z.string().nullable().optional(),
   jobTitle: z.string().nullable().optional(),
@@ -45,6 +61,22 @@ const profileSchema = z.object({
   })).optional().default([]),
 });
 
+/**
+ * GET /api/profile
+ *
+ * Retorna el perfil profesional completo del usuario autenticado.
+ * Si el usuario aún no ha creado su perfil, retorna `null`.
+ *
+ * Requiere sesión activa (JWT). Si no hay sesión, retorna 401.
+ *
+ * @returns 200 con el objeto Profile de Prisma, o null si no existe.
+ * @returns 401 si el usuario no está autenticado.
+ * @returns 500 en caso de error inesperado de base de datos.
+ *
+ * @example
+ * const res = await fetch('/api/profile');
+ * const profile = await res.json(); // Profile | null
+ */
 export const GET = async () => {
   const session = await auth();
   if (!session?.user?.id) {
@@ -63,6 +95,32 @@ export const GET = async () => {
   }
 };
 
+/**
+ * PUT /api/profile
+ *
+ * Crea o actualiza (upsert) el perfil profesional del usuario autenticado.
+ *
+ * Usa `prisma.profile.upsert` para manejar tanto la creación inicial
+ * como actualizaciones posteriores con una sola operación.
+ *
+ * Los campos JSON de Prisma (experience, education, languages,
+ * complementaryEducation) requieren un cast explícito a
+ * `Prisma.InputJsonValue` para satisfacer el tipado estricto del ORM.
+ *
+ * Requiere sesión activa (JWT). Si no hay sesión, retorna 401.
+ * Valida el body con Zod antes de cualquier operación en la DB.
+ *
+ * @returns 200 con el objeto Profile actualizado.
+ * @returns 400 si el body no pasa la validación de Zod.
+ * @returns 401 si el usuario no está autenticado.
+ * @returns 500 en caso de error inesperado de base de datos.
+ *
+ * @example
+ * await fetch('/api/profile', {
+ *   method: 'PUT',
+ *   body: JSON.stringify({ fullName: 'Juan Pérez', experience: [...], ... }),
+ * });
+ */
 export const PUT = async (req: NextRequest) => {
   const session = await auth();
   if (!session?.user?.id) {
@@ -81,7 +139,7 @@ export const PUT = async (req: NextRequest) => {
       where: { userId: session.user.id },
       update: {
         ...parsed.data,
-        experience: parsed.data.experience as unknown as Prisma.InputJsonValue, // Json fields
+        experience: parsed.data.experience as unknown as Prisma.InputJsonValue,
         education: parsed.data.education as unknown as Prisma.InputJsonValue,
         languages: parsed.data.languages as unknown as Prisma.InputJsonValue,
         complementaryEducation: parsed.data.complementaryEducation as unknown as Prisma.InputJsonValue,
