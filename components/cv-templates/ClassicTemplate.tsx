@@ -1,7 +1,41 @@
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import type { CvTemplateProps } from "@/types/cv-template";
 
-/** 
+/**
+ * Plantilla de CV: Classic
+ *
+ * Diseño tradicional y formal inspirado en CVs académicos y corporativos.
+ * Tipografía Helvetica negra sobre fondo blanco, sin colores decorativos.
+ *
+ * Existe en dos versiones exportadas desde este archivo:
+ *
+ * - `ClassicTemplatePDF` — usa primitivos de `@react-pdf/renderer`
+ *   (`Document`, `Page`, `Text`, `View`). Se renderiza EXCLUSIVAMENTE en el
+ *   servidor desde `lib/pdf-generator.ts`. No importar en componentes cliente.
+ *
+ * - `ClassicTemplate` — usa JSX estándar con clases Tailwind CSS.
+ *   Se renderiza en el cliente para la previsualización en `/generate`.
+ *   Replica visualmente la versión PDF para máxima fidelidad.
+ *
+ * Estructura de secciones (ambas versiones):
+ * 1. Header con datos personales (nombre, cargo, contacto).
+ * 2. Resumen profesional.
+ * 3. Experiencia laboral.
+ * 4. Educación.
+ * 5. Habilidades (técnicas + blandas combinadas).
+ * 6. Educación complementaria (condicional, si existe).
+ * 7. Idiomas.
+ *
+ * ATS-friendly: sin tablas, sin columnas múltiples, sin imágenes,
+ * texto seleccionable, fuente estándar Helvetica.
+ *
+ * @see lib/pdf-generator.ts — usa ClassicTemplatePDF en el servidor
+ * @see components/dashboard/CvPreview.tsx — usa ClassicTemplate en el cliente
+ * @see types/cv-template.ts — CvTemplateProps compartidas
+ */
+
+/**
+ * Estilos del PDF usando StyleSheet de @react-pdf/renderer.
  * VERSION PDF (@react-pdf/renderer)
  */
 const pdfStyles = StyleSheet.create({

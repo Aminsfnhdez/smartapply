@@ -1,12 +1,45 @@
 import { useTranslations } from "next-intl";
 import { CheckCircle, FileText, TrendingUp, Clock } from "lucide-react";
 
+/**
+ * Props del componente DashboardStats.
+ */
 interface DashboardStatsProps {
+  /** Número total de CVs generados por el usuario. */
   totalCvs: number;
+  /** Score ATS promedio de todos los CVs del usuario (0–100). */
   averageScore: number;
+  /**
+   * Fecha del último CV generado en formato legible.
+   * Si no hay CVs, se recibe `undefined` y se muestra "--".
+   */
   lastGeneratedDate?: string;
 }
 
+/**
+ * Grid de métricas del dashboard.
+ *
+ * Server Component — no requiere interactividad ni hooks de estado.
+ * Recibe las métricas ya calculadas desde `dashboard/page.tsx` (Server Component)
+ * que las obtiene directamente de la DB con Prisma, evitando fetch del cliente.
+ *
+ * Muestra 3 tarjetas con:
+ * - Total de CVs generados (ícono azul).
+ * - Score ATS promedio en porcentaje (ícono verde).
+ * - Fecha del último CV generado (ícono morado).
+ *
+ * Los textos de las etiquetas están externalizados en `messages/` bajo
+ * la clave `dashboard.stats` para soporte multiidioma.
+ *
+ * @see app/(dashboard)/dashboard/page.tsx — calcula y pasa estas props
+ *
+ * @example
+ * <DashboardStats
+ *   totalCvs={12}
+ *   averageScore={84}
+ *   lastGeneratedDate="28/02/2026"
+ * />
+ */
 export const DashboardStats = ({ totalCvs, averageScore, lastGeneratedDate }: DashboardStatsProps) => {
   const t = useTranslations("dashboard.stats");
 

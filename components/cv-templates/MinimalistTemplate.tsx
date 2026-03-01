@@ -2,6 +2,36 @@ import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import type { CvTemplateProps } from "@/types/cv-template";
 
 /**
+ * Plantilla de CV: Minimalist
+ *
+ * Diseño limpio y de máxima legibilidad. Usa tipografía de peso ligero (`font-light`),
+ * espaciado generoso (`padding: 50pt`) y separadores sutiles (`border-gray-100`)
+ * para crear un CV elegante y moderno sin elementos decorativos.
+ *
+ * Existe en dos versiones exportadas desde este archivo:
+ *
+ * - `MinimalistTemplatePDF` — usa primitivos de `@react-pdf/renderer`.
+ *   Se renderiza EXCLUSIVAMENTE en el servidor desde `lib/pdf-generator.ts`.
+ *
+ * - `MinimalistTemplate` — usa JSX estándar con clases Tailwind CSS.
+ *   Se renderiza en el cliente para la previsualización en `/generate`.
+ *
+ * Estructura de secciones:
+ * 1. Header minimalista con nombre en trazado espaciado y datos de contacto pequeños.
+ * 2. Resumen justificado, peso light.
+ * 3. Experiencia con separador inferior sutil por entrada.
+ * 4. Educación con mismo patrón visual.
+ * 5. Habilidades e Idiomas en layout de dos columnas al pie.
+ *
+ * Esta es la plantilla con mayor compatibilidad ATS: sin colores de fondo,
+ * sin bordes de color, estructura completamente lineal.
+ *
+ * @see lib/pdf-generator.ts — usa MinimalistTemplatePDF en el servidor
+ * @see components/dashboard/CvPreview.tsx — usa MinimalistTemplate en el cliente
+ */
+
+/**
+ * Estilos del PDF usando StyleSheet de @react-pdf/renderer.
  * VERSION PDF (@react-pdf/renderer)
  */
 const pdfStyles = StyleSheet.create({

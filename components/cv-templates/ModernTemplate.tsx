@@ -2,6 +2,38 @@ import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import type { CvTemplateProps } from "@/types/cv-template";
 
 /**
+ * Plantilla de CV: Modern
+ *
+ * Diseño contemporáneo con acento azul (`#2563eb`). Incluye una barra de color
+ * superior, tipografía bold en el header, y borde izquierdo azul en las
+ * entradas de experiencia para jerarquía visual clara.
+ *
+ * Existe en dos versiones exportadas desde este archivo:
+ *
+ * - `ModernTemplatePDF` — usa primitivos de `@react-pdf/renderer`.
+ *   Se renderiza EXCLUSIVAMENTE en el servidor desde `lib/pdf-generator.ts`.
+ *
+ * - `ModernTemplate` — usa JSX estándar con clases Tailwind CSS.
+ *   Se renderiza en el cliente para la previsualización en `/generate`.
+ *
+ * Estructura de secciones:
+ * 1. Barra de color superior.
+ * 2. Header con datos personales.
+ * 3. Resumen con barra lateral azul.
+ * 4. Experiencia (con border-left azul por entrada).
+ * 5. Educación.
+ * 6. Educación complementaria (condicional).
+ * 7. Habilidades e Idiomas en grid 2 columnas.
+ *
+ * ATS-friendly: el grid de habilidades e idiomas usa columnas flexbox,
+ * no tablas HTML, garantizando compatibilidad con parsers ATS.
+ *
+ * @see lib/pdf-generator.ts — usa ModernTemplatePDF en el servidor
+ * @see components/dashboard/CvPreview.tsx — usa ModernTemplate en el cliente
+ */
+
+/**
+ * Estilos del PDF usando StyleSheet de @react-pdf/renderer.
  * VERSION PDF (@react-pdf/renderer)
  */
 const pdfStyles = StyleSheet.create({

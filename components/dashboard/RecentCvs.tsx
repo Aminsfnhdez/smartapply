@@ -9,7 +9,14 @@ import { FilePlus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 
+/**
+ * Props del componente RecentCvs.
+ */
 interface RecentCvsProps {
+  /**
+   * Lista inicial de CVs recientes del usuario, obtenida en el servidor
+   * desde `dashboard/page.tsx`. Se muestra un máximo de 2 CVs.
+   */
   initialCvs: Array<{
     id: string;
     jobDescription: string;
@@ -19,12 +26,44 @@ interface RecentCvsProps {
   }>;
 }
 
+/**
+ * Sección de CVs recientes en el dashboard con eliminación reactiva.
+ *
+ * Client Component — mantiene estado local de la lista de CVs para
+ * reflejar eliminaciones sin recargar la página completa.
+ *
+ * Recibe los CVs iniciales como prop desde el Server Component padre
+ * (patrón de hidratación: server fetch → client state).
+ *
+ * Responsabilidades:
+ * - Muestra hasta 2 CVs recientes usando `CvHistoryCard`.
+ * - Gestiona la eliminación con confirmación via Sonner toast action:
+ *   - Muestra un toast con botón de confirmación (duración 5s).
+ *   - Si el usuario confirma, llama a `DELETE /api/cv/[id]`.
+ *   - En éxito: filtra el CV del estado local y llama a `router.refresh()`
+ *     para actualizar las métricas del dashboard (DashboardStats).
+ *   - En error: toast de error.
+ * - Mientras un CV está siendo eliminado, aplica `opacity-50 pointer-events-none`
+ *   para indicar el estado de carga sin deshabilitar otros CVs.
+ * - Estado vacío: si no hay CVs, muestra un empty state con CTA a `/generate`.
+ *
+ * @see components/dashboard/CvHistoryCard.tsx — tarjeta individual de CV
+ * @see app/(dashboard)/dashboard/page.tsx — Server Component que provee initialCvs
+ * @see app/api/cv/[id]/route.ts — DELETE endpoint
+ *
+ * @example
+ * <RecentCvs initialCvs={recentCvs} />
+ */
 export const RecentCvs = ({ initialCvs }: RecentCvsProps) => {
   const t = useTranslations('dashboard');
   const router = useRouter();
   const [cvs, setCvs] = useState(initialCvs);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
+  /**
+   * Muestra un toast de confirmación antes de eliminar el CV.
+   * La eliminación real ocurre solo si el usuario hace clic en el botón de confirmación.
+   */
   const handleDelete = async (id: string) => {
     toast(t('confirmDelete'), {
       action: {

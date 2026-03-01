@@ -3,14 +3,50 @@
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
+/**
+ * Props del componente AtsScoreBar.
+ */
 interface AtsScoreBarProps {
+  /** Puntuación ATS de 0 a 100 retornada por Claude API. */
   score: number;
+  /** Sugerencias de mejora (al menos 3 si score < 80). */
   suggestions: string[];
+  /** Keywords de la vacante encontradas en el CV. */
   matchedKeywords: string[];
+  /** Keywords relevantes de la vacante ausentes en el CV. */
   missingKeywords: string[];
+  /** Clases adicionales para el contenedor raíz. */
   className?: string;
 }
 
+/**
+ * Componente visual para mostrar el score de compatibilidad ATS.
+ *
+ * Client Component — usa `useTranslations` de next-intl para i18n.
+ *
+ * Muestra:
+ * - Barra de progreso animada con color según el score:
+ *   - ≥ 80 → verde (buen nivel de compatibilidad).
+ *   - 50–79 → amarillo (compatibilidad media).
+ *   - < 50 → rojo (baja compatibilidad).
+ * - Advertencia si el score es menor a 80.
+ * - Dos columnas de badges: keywords encontradas (verde) y faltantes (rojo).
+ * - Lista de sugerencias de mejora (solo si `suggestions.length > 0`).
+ *
+ * La barra usa `transition-all duration-1000` para animar el llenado
+ * al montar el componente, dando feedback visual inmediato al usuario.
+ *
+ * @see app/(dashboard)/generate/page.tsx — uso principal tras generación de CV
+ * @see types/cv.ts — AtsScoreResponse que alimenta estas props
+ *
+ * @example
+ * <AtsScoreBar
+ *   score={atsData.score}
+ *   suggestions={atsData.suggestions}
+ *   matchedKeywords={atsData.matchedKeywords}
+ *   missingKeywords={atsData.missingKeywords}
+ * />
+ */
 const AtsScoreBar = ({
   score,
   suggestions,

@@ -10,17 +10,67 @@ import { ClassicTemplate } from '../cv-templates/ClassicTemplate';
 import { ModernTemplate } from '../cv-templates/ModernTemplate';
 import { MinimalistTemplate } from '../cv-templates/MinimalistTemplate';
 
-/** Ancho y alto de una hoja A4 a 96 DPI (px) */
+/** Ancho de una hoja A4 a 96 DPI en píxeles. */
 const A4_WIDTH = 794;
+/** Alto de una hoja A4 a 96 DPI en píxeles. */
 const A4_HEIGHT = 1123;
 
+/**
+ * Props del componente CvPreview.
+ */
 interface CvPreviewProps {
+  /** Contenido del CV generado por Claude API. */
   content: GeneratedCvContent;
+  /** Plantilla seleccionada para renderizar el preview y exportar el PDF. */
   template: 'classic' | 'modern' | 'minimalist';
+  /** Idioma del contenido del CV para adaptar etiquetas de sección. */
   language: 'es' | 'en';
+  /**
+   * ID del CV guardado en la DB.
+   * Si es null/undefined, el botón de descarga PDF no se renderiza.
+   * Se recibe null antes de que el CV sea guardado y se actualiza tras la generación.
+   */
   cvId?: string | null;
 }
 
+/**
+ * Previsualización interactiva del CV con opción de descarga PDF.
+ *
+ * Client Component — gestiona el estado de descarga y las notificaciones.
+ *
+ * Responsabilidades:
+ * - Renderiza la plantilla HTML correspondiente (Classic, Modern o Minimalist)
+ *   escalada a tamaño A4 dentro del contenedor disponible.
+ * - Aplica escalado responsivo mediante `transform: scale()` con tres breakpoints:
+ *   - Mobile: scale 0.48
+ *   - sm (≥640px): scale 0.55
+ *   - md (≥768px): scale 0.65
+ *   El wrapper ajusta su altura al tamaño visual escalado para evitar espacios vacíos.
+ *   Las media queries se inyectan como `<style>` inline ya que Tailwind no soporta
+ *   valores dinámicos de `transform` en clases utilitarias.
+ * - Botón de descarga PDF que llama a `POST /api/cv/export` y abre la URL
+ *   firmada de Supabase en una nueva pestaña.
+ *   - Mientras descarga: muestra estado de carga con Sonner toast y deshabilita el botón.
+ *   - En error: toast de error.
+ *   - En éxito: toast de éxito y apertura de la URL.
+ *
+ * Las plantillas HTML son versiones Tailwind de las plantillas PDF, garantizando
+ * fidelidad visual entre el preview y el PDF exportado.
+ *
+ * ⚠️ No usa `PDFViewer` de `@react-pdf/renderer` — causa error con Turbopack.
+ *
+ * @see lib/pdf-generator.ts — generación del PDF real en el servidor
+ * @see app/api/cv/export/route.ts — endpoint de exportación
+ * @see components/cv-templates/ — plantillas HTML y PDF
+ *
+ * @example
+ * <CvPreview
+ *   content={generatedCv}
+ *   template="modern"
+ *   language="es"
+ *   cvId={savedCvId}
+ * />
+ */
 export const CvPreview = ({ content, template, language, cvId }: CvPreviewProps) => {
   const t = useTranslations('generate');
   const [downloading, setDownloading] = useState(false);
@@ -65,11 +115,6 @@ export const CvPreview = ({ content, template, language, cvId }: CvPreviewProps)
     }
   };
 
-  /**
-   * Escala responsiva: se aplica transform scale para mostrar la hoja A4
-   * dentro del contenedor disponible. origin-top-left evita el recorte
-   * y el wrapper ajusta su altura visual al tamaño escalado.
-   */
   const scale = 0.48;
   const scaleSm = 0.55;
   const scaleMd = 0.65;
@@ -104,7 +149,7 @@ export const CvPreview = ({ content, template, language, cvId }: CvPreviewProps)
           </div>
         </div>
 
-        {/* Media queries para escalas responsivas via style tag inline */}
+        {/* Media queries para escalas responsivas */}
         <style>{`
           @media (min-width: 640px) {
             .cv-preview-wrapper { width: ${A4_WIDTH * scaleSm}px !important; height: ${A4_HEIGHT * scaleSm}px !important; }
@@ -121,7 +166,7 @@ export const CvPreview = ({ content, template, language, cvId }: CvPreviewProps)
         {t('previewNote')}
       </p>
 
-      {/* Botón de descarga PDF */}
+      {/* Botón de descarga PDF — solo visible cuando el CV está guardado */}
       {cvId && (
         <button
           onClick={handleDownload}
